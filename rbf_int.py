@@ -24,10 +24,13 @@ def rbf_int(tocke, rbf, z):
 	try:
 		R = cholesky(A)
 		U = R.T
-	except:
-		#L,U = lu
-	# obratno vstavljanje R*y = z
-	y = solve(R,z)	
-	# direktno vstavljanje R^T*alpha = y
-	alpha = solve(R.T,y)
+                # obratno vstavljanje R*y = z
+                y = solve(R,z)
+                # direktno vstavljanje R^T*alpha = y
+                alpha = solve(R.T,y)
+        except:
+            #matrika ni pozitivno definitna
+            alpha = solve(A,z)
+        alpha = solve(A,z)
+	
 	return alpha
