@@ -1,0 +1,63 @@
+%% LyX 2.0.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[slovene]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{listings}
+\lstset{basicstyle={\footnotesize},
+frame=lines,
+language=Octave,
+literate={{č}{{\v{c}}}1 {š}{{\v{s}}}1 {ž}{{\v{z}}}1}}
+\usepackage{textcomp}
+\usepackage{babel}
+\begin{document}
+
+\title{Izpit iz Numerične matematike}
+
+
+\date{9.9.2013}
+\maketitle
+\begin{enumerate}
+\item Za Hermitovo enačbo € 
+\begin{equation}
+y''-2xy'+2y=0\label{eq:hermite}
+\end{equation}
+je ena od rešitev polinom $y_{1}(x)=x$. Naj bo $y_{2}(x)$ rešitev
+(\ref{eq:hermite}), ki je neodvisna od $y_{1}$ in zadošča začetnemu
+pogoju
+\[
+y_{2}(0)=1,\quad y_{2}'(0)=0.
+\]
+Poišči približek za $y_{2}(1)$ z metodo Runge-Kutta reda 2
+\begin{eqnarray*}
+{\bf k}_{1} & = & hf(x_{n},{\bf y}_{n})\\
+{\bf k}_{2} & = & hf(x_{n+1},{\bf y}_{n}+{\bf k}_{1})\\
+{\bf y}_{n+1} & = & {\bf y}_{n}+\frac{{\bf k}_{1}+{\bf k}_{2}}{2}
+\end{eqnarray*}
+s koraki $h=0.5$ in $h=0.1$. Poiščite približek za rešitev robnega
+problema za Hermitovo enačbo s homogenimi robnimi pogoji
+\[
+y(0)=y(1)=0
+\]
+v točkah $x=0,0.1,0.2,\ldots,0.9,1$. \emph{Namig: Splošna rešitev
+enačbe (\ref{eq:hermite}) je 
+\[
+c_{1}y_{1}(x)+c_{2}y_{2}(x).
+\]
+}
+\item Naj bo $A$ pozitivno definitna simetrična matrika, za katero smo
+že izračunali razcep Choleskega
+\[
+A=R^{T}R.
+\]
+Napiši učinkovit algoritem za iskanje najmanjše lastne vrednosti in
+pripadajočega lastnega vektorja matrike $A$ z inverzno potenčno metodo.
+Koliko osnovnih operacij je potrebnih za vsak korak? Z algoritmom
+poišči približek za najmanjšo lastno vrednost in pripadajoči lastni
+vektor $20\times20$ matrike z elementi
+\[
+a_{ij}=ij\exp(-|i-j|).
+\]
+ \end{enumerate}
+
+\end{document}

@@ -1,0 +1,106 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[slovene]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%opening
+\title{Drugi izpit iz Matematike 2}
+\date{28. 8. 2012}
+
+\begin{document}
+
+\maketitle
+
+\section*{Popravni kolokvij}
+\begin{enumerate}
+\item Naj bo $Z:\mathbb{R}^{3}\to\mathbb{R}^{3}$ linearna prslikava, ki
+predstavlja zraljenje preko ravnine
+\[
+x-y+z=0.
+\]
+Poišči lastne vrednosti in lastne vektorje preslikave $Z$. Če obstaja
+ortonormirana baza sestavljena iz lastnih vektorjev preslikave $Z$,
+jo poišči. Določi $3\times3$ matriko, ki pripada preslikavi $Z$.
+\item Poišči bazo jedra in slike preslikave podane z matriko
+\[
+\begin{pmatrix}1 & 0 & 1 & 0\\
+1 & 1 & 0 & 0\\
+1 & -1 & 2 & 0
+\end{pmatrix}.
+\]
+
+\item Poišči točko na elipsi
+\[
+x^{2}+xy+y^{2}=1,
+\]
+ki je najbližje premici skozi točki $A(-3,0)$ in $B(0,-3)$.
+\item Rešujemo enačbo
+\[
+\sin x=ax+b,
+\]
+za $a>1$ in $b\in\mathbb{R}$.
+
+\begin{enumerate}
+\item Pokaži, da ima enačba eno samo rešitev (funkcija $\sin x-ax-b$ je
+monotona) in določi končen interval v odvisnosti od $a$ in $b$,
+na katerem se rešitev nahaja.
+\item Za $a=2$ in $b=1$ reši enačbo z Newtonovo metodo in z metodo navadne
+iteracije za ekvivalentno enačbo
+\[
+x=\frac{1}{a}(\sin x-b).
+\]
+
+\item Določi hitrost konvergence za obe metodi.
+\end{enumerate}
+
+
+\end{enumerate}
+\newpage
+\section*{Teoretični del}
+\begin{enumerate}
+%%%%%%
+\item a) Napi"si definicijo linearne odvisnosti vektorjev $a,b,c$. Ali
+pozna"s kako karakterizacijo linearne odvisnosti? Naj bo $a=(1,1)$,
+$b=(1,0), c=(2,3)$. Poi"s"ci take $\alpha, \beta,\gamma$, $\alpha\neq
+0$, za katere velja $\alpha a+\beta b+\gamma c=0$. Kaj na podlagi
+dobljene enakosti lahko sklepamo o linearni odvisnosti (neodvisnosti)
+vektorjev $a,b,c$?
+
+
+b) Napi"si definicijo linearne ogrinja"ce in dolo"ci linearno
+ogrinja"co vektorjev $a,b,c$.
+
+
+\item
+
+a) Naj bo $V={\mathbb R}^2$ in naj bosta $a,b$ in $c,d$ dve bazi prostora $V$.
+Napi"si definicijo matrike prehoda $A$ od stare baze $a,b$ k novi bazi
+$c,d$. Izra"cunaj matriko $A$, "ce so
+
+$$
+a=\begin{pmatrix}1\\ 1\end{pmatrix}, b=\begin{pmatrix}0\\
+1\end{pmatrix}, c=\begin{pmatrix}0\\
+1\end{pmatrix},d=\begin{pmatrix}1\\ 0\end{pmatrix},
+$$
+
+
+b) Napi"si definicijo koordinat vektorja v bazi. Za vektor
+$d=\begin{pmatrix}5\\ 2\end{pmatrix}$ poi"s"ci njegove koordinate v
+bazih $a,b$ in $c,d$. Kako uporabimo matriko $A$ in koordinate v bazi
+$a,b$ da dobimo koordinate v bazi $c,d$?
+
+\item Naj bo ${f(x)=\displaystyle \sum_{n=1}^\infty \frac{1}{n}(x-1)^n}$. Dolo\v ci
+\begin{enumerate}
+\item konvergen\v cni polmer in obmo\v cje konvergence poten\v cne vrste in pa definicijsko obmo\v cje funkcije $f$,
+\item funkcijo $f'(x)$ in njeno definicijsko obmo\v cje,
+\item funkcijo $f(x)$.
+\end{enumerate}
+
+\item Zapi\v si definicijo gradienta funkcije $f(x,y,z)$. Za funkcijo $f(x,y,z)=xz-2xy$ izra\v cunaj njen gradient. Poi\v s\v ci \v se smer, v kateri bo v to\v cki $(1,1,1)$ funkcijska vrednost najhitreje nara\v s\v cala.
+
+
+%%%%%%%
+
+\end{enumerate}
+\end{document}
