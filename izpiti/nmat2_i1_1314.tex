@@ -1,0 +1,63 @@
+\documentclass[slovene]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{listings}
+\lstset{basicstyle={\footnotesize},
+frame=lines,
+language=Octave,
+literate={{č}{{\v{c}}}1 {š}{{\v{s}}}1 {ž}{{\v{z}}}1}}
+\usepackage{textcomp}
+\usepackage{babel}
+\begin{document}
+
+\title{Izpit iz Numerične matematike}
+
+
+\date{11.6.2014}
+\maketitle
+\begin{enumerate}
+\item Dan je začetni problem za NDE  
+\begin{equation}
+y''-\frac{2}{x}y'+y=0;\quad y_{1}(\pi/2)=1,\quad y_{1}'(\pi/2)=0.\label{eq:hermite}
+\end{equation}
+katerega rešitev je 
+\begin{equation}
+y(x)=\cos(x)+x\sin(x).\label{eq:resitev}
+\end{equation} 
+% $$y(x)=C_1\left(\cos(x)+x\sin(x)\right)+C_2\left(\sin(x)-x\cos(x)\right).$$
+\begin{enumerate}
+\item Poišči približek za $y(\pi)$ z metodo prediktor-korektor s korakom $h=\pi/4$.
+Za prediktor uporabi Eulerjevo metodo $y_{n+1}=y_n +hf(x_n,y_n)$ za korektor pa 
+implicitno trapezno pravilo
+\begin{equation*}
+y_{n+1}=y_n +\frac{1}{2}h(f(x_n,y_n)-f(x_{n+1},y_{n+1}).
+\end{equation*}
+Izračunaj globalno napako za $y(\pi)$.  
+
+Ali se napaka bistveno spremeni, če uporabimo več korakov iteracije 
+za izračun korektorja?
+\item
+Rešitev problema (\ref{eq:hermite}) ima na intervalu $[0,\pi]$ ničlo. 
+Zgolj z izračunanimi približki iz točke (a) čimbolj natančno določi 
+ničlo? Približek primerjaj z ničlo, ki jo dobiš za točno rešitvev 
+(\ref{eq:resitev}).    
+\end{enumerate}
+
+\item S QR iteracijo poišči lastne vrednosti in lastne vektorje matrike
+  \begin{equation}
+    \label{eq:matrika}
+    A= \begin{pmatrix}
+      1 & 2 & 3\\
+      2 & -1 & -2\\
+      3 & -2 & 3
+    \end{pmatrix}.
+  \end{equation}
+S potenčno in inverzno potenčno metodo izračunaj še lastni vektor za 
+največjo in najmanjšo lastno vrednost.
+
+Primerjaj število potrebnih korakov iteracije za isto 
+natančnost med potenčno metodo in QR iteracijo. 
+ \end{enumerate}
+
+\end{document}
