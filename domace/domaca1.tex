@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage[utf8x]{inputenc}
+\begin{document}
+Naj bo A \(n\times n\) simetrična zgornje hessenbergova matrika (velja \(a_{ij}=0\) za \(j< j-2i\)). Ker je A simetrična,  je v resnici tridiagonalna matrika.
+
+Napišite funkcijo [q,r]=qr_tridiag(M), ki izvede QR razcep matrike A. Neničelni elementi matrike A bomo zaradi prostorskih zahtev podani kot \(n\times 3\) matrika M (i-ta vrstica matrike M vsebuje neničelne elemente i-te vrstice matrike A). Matrika R naj bo podobno kot A podana z \(n\times 3\) matriko r, matrika q pa \(2\times n\), ki po stolpcih vsebuje vrednosti \([\cos(\alpha_i); \sin(\alpha_i)]\), kjer je \(\alpha_i\) kot za i-to Givensovo rotacijo \(R_i\), tako da velja
+
+\[Q=R_1\cdot R_2\cdots R_n.\] 
+
+Napišite še funkcijo M=zmnozi(q,r), ki izračuna produkt \(QR\), kjer sta matriki q in r v isti obliki ki jo vrača funkcija qr_tridaig. Napiši tudi program, ki preiskusi pravilnost funkcij qr_tridiag in zmnozi.
+
+
+
+Naj bo A \(n\times n\) zgornje hessenbergova matrika (velja \(a_{ij}=0\) za \(j< j-2i\)).
+
+Napišite funkcijo [q,R]=qr_hessenberg(A), ki izvede QR razcep matrike A z Givensovimi rotacijami. Matrika R naj bo zgornje trikotna matrika enakih dimenzij kot A, v q pa se shrani zaporedje rotacij, ki se med razcepom izvedejo. Matrika q naj bo \(2\times n\) matrika, katere stolpci so pari \([\cos(\alpha); \sin(\alpha)]\), kjer je \(\alpha\) kot rotacije na posameznem koraku.   
+
+Napišite še funkcijo Y=zmnozi(q,X), ki izračuna produkt \(QX\), kjer je matrika q v isti obliki ki jo vrača funkcija qr_hessenberg izhod \(2\times n\). Napiši tudi program, ki preiskusi pravilnost funkcij qr_hessenberg in zmnozi.
+
+Naj bo A \(n\times n\) diagonalno dominantna razpršena matrika(velika večina elementov je ničelnih \(a_{ij}=0\)). Matriko zaradi prostorskih zahtev hranimo v dveh matrikah. Naj bosta \(V\) in \(I\) \(n\times m\) bo matriki, tako da velja
+
+\[V(i,j)=A(i,I(i,j)).\]
+
+V matriki \(V\) se torej nahajajo neničelni elementi matrike \(A\). Vsaka vrstica matrike \(V\) vsebuje ničelne elemente iz iste vrstice v \(A\). V matriki \(I\) pa so shranjeni indeksi stolpcev teh neničelnih elementov. 
+
+Napišite funkcijo [x,i]=sor(V,I,b,omega), ki reši sistem
+
+\[Ax=b\],
+
+z metodo SOR za razpršeno matriko \(A\) predstavljeno z matrikami V in I.
+
+Napišite še funkcijo b=zmnozi(V,I,x), ki pomnoži vektor \(b\) z  razpršeno matriko in program, ki preiskusi pravilnost funkcij sor in zmnozi.
+Za testne primere, poišči optimalni omega, pri katerem SOR najhitreje konvergira.
+
+key
+hitritev konvergence iterativnih metod, se velikokrat izvede t. i. predpogojevanje(angl. preconditioning). Za simetrične pozitivno definitne matrike je to pogosto nepopolni razcep Choleskega, pri katerem sledimo algoritmu za razcep Choleskega, le da ničelne elemente pustimo pri miru.
+
+Naj bo A \(n\times n\) pozitivno definitna razpršena matrika(velika večina elementov je ničelnih \(a_{ij}=0\)). Matriko zaradi prostorskih zahtev hranimo kot „sparse“  matriko. Poglejte si pomoč v octavu.
+
+Napišite funkcijo L=nep_chol(A), ki izračuna nepopolni razcep Choleskega za matriko tipa sparse. Napišite še funkcijo [x,i]=conj_grad_pre(A,b,L), ki reši linearni sistem
+
+\[Ax=b\]
+
+s predpogojeno metodo konjugiranih gradientov za matriko M=\(L^T L\) kot predpogojevalcem. Pri tem pazite, da matrike \(M\) ne izračunate, ampak uporabite razbep \(M=L^TL\). Za različne primere preverite, ali se izboljša hitrost konvergence.
+
+key
+hitritev konvergence iterativnih metod, se velikokrat izvede t. i. predpogojevanje(angl. preconditioning). Za simetrične pozitivno definitne matrike je to pogosto nepopolni razcep Choleskega, pri katerem sledimo algoritmu za razcep Choleskega, le da ničelne elemente pustimo pri miru.
+
+Naj bo A \(n\times n\) pozitivno definitna razpršena matrika(velika večina elementov je ničelnih \(a_{ij}=0\)). Matriko zaradi prostorskih zahtev hranimo kot „sparse“  matriko. Poglejte si pomoč v octavu.
+
+Napišite funkcijo L=nep_chol(A), ki izračuna nepopolni razcep Choleskega za matriko tipa sparse. Napišite še funkcijo [x,i]=conj_grad_pre(A,b,L), ki reši linearni sistem
+
+\[Ax=b\]
+
+s predpogojeno metodo konjugiranih gradientov za matriko M=\(L^T L\) kot predpogojevalcem. Pri tem pazite, da matrike \(M\) ne izračunate, ampak uporabite razbep \(M=L^TL\). Za različne primere preverite, ali se izboljša hitrost konvergence.
+
+Napišite funkcijo iter.m, ki reši sistem \(A\mathbf{x}=\mathbf{b}\) z Jacobijevo, Gauss-Seidelovo in SOR iteracijo.  Znano je, da omenjene 3 iteracije konvergirajo za matrike, ki so diagonalno dominantne po vrsticah. Matrika je diagonalno dominantna po vrsticah, če velja \[|a_{ii}|\ge\sum_{j\not=i}|a_{ij}|,\] za poljuben \(i\). Funkcija iter naj preveri ali je mogoče matriko \(A\) s permutacijami vrstic in stolpcev preurediti v diagonalno dominantno matriko in tako preurejeno matriko uporabi za iteraciijo. V primeru, da matrike \(A\) ni mogoče preurediti v diagonalno dominantno po vrsticah, naj funkcija javi napako.
+
+Klic funkcije naj bo oblike [x,j,g,s]=iter(A,b,x0,nat,omega), kjer je x rešitev sistema j,g,s pa število iteracij, potrebnih za konvergenco pri Jacobijevi, Gauss-Seidelovi in SOR iteraciji. Pri vhodnih argumentih pa je x0 poljubni začetni približek, nat pogoj za ustavitev iteracije in omega parameter pri SOR iteraciji. Iteracija naj se ustavi, ko je \(|A\mathbf{x}^{(k)}-\mathbf{b}|_\infty < nat\). Za testne primere, kjer je to smiselno, tudi določite vrednost parametra omega, pri katerem je SOR metoda najhitreje konvergira.
+\end{document}
