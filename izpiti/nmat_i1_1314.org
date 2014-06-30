@@ -1,0 +1,68 @@
+#+title: Izpit iz Numerične matematike
+[11.6.2014]
+
+* 1. naloga
+  :PROPERTIES:
+  //:header-args:python: :session *1-nal*
+  :END:
+Dan je začetni problem za NDE  
+\begin{equation}
+y''-\frac{2}{x}y'+y=0;\quad y_{1}(\pi/2)=1,\quad y_{1}'(\pi/2)=0.\label{eq:hermite}
+\end{equation}
+katerega rešitev je 
+\begin{equation}
+y(x)=\cos(x)+x\sin(x).\label{eq:resitev}
+\end{equation} 
+ 
+ 1. Poišči približek za $y(\pi)$ z metodo prediktor-korektor s korakom $h=\pi/4$.
+Za prediktor uporabi Eulerjevo metodo $y_{n+1}=y_n +hf(x_n,y_n)$ za korektor pa 
+implicitno trapezno pravilo
+\begin{equation*}
+y_{n+1}=y_n +\frac{1}{2}h\left(f(x_n,y_n)-f(x_{n+1},y_{n+1})\right).
+\end{equation*}
+Izračunaj globalno napako za $y(\pi)$.  
+#+BEGIN_SRC python
+f = lambda y,x: array([[0,1],[-1,2/x]]).dot(y)
+prediktor = lambda f,x0,y0,h: y0 + h*f(y0,x0)
+korektor = lambda f,x0,y0,y1,h: y0 + h/2*(f(y0,x0)+f(y1,x0+h))
+y0 = array([1,0])
+x0 = pi/2
+h = pi/4
+y1 = prediktor(f,x0,y0,h)
+y = korektor(f,x0,y0,y1,h)
+x = x0+h
+u"Približek v $3\\pi/4$ je " + str(y)
+y 
+#+END_SRC
+
+#+RESULTS:
+
+ 2. Ali se napaka bistveno spremeni, če uporabimo več korakov iteracije 
+za izračun korektorja?
+
+ 3. Rešitev problema (\ref{eq:hermite}) ima na intervalu $[0,\pi]$ ničlo.
+Zgolj z izračunanimi približki iz točke (a) čimbolj natančno določi 
+ničlo? Približek primerjaj z ničlo, ki jo dobiš za točno rešitvev 
+(\ref{eq:resitev}).
+    
+#+BEGIN_SRC python
+
+#+END_SRC
+\end{enumerate}
+
+* 2. naloga
+S QR iteracijo poišči lastne vrednosti in lastne vektorje matrike
+  \begin{equation}
+    \label{eq:matrika}
+    A= \begin{pmatrix}
+      1 & 2 & 3\\
+      2 & -1 & -2\\
+      3 & -2 & 3
+    \end{pmatrix}.
+  \end{equation}
+S potenčno in inverzno potenčno metodo izračunaj še lastni vektor za 
+največjo in najmanjšo lastno vrednost.
+
+Primerjaj število potrebnih korakov iteracije za isto 
+natančnost med potenčno metodo in QR iteracijo. 
+
