@@ -1,0 +1,8 @@
+-rw-rw-r--    1 300      201          3676 Mar 05 19:04 co2_annmean_gl.txt
+-rw-rw-r--    1 300      201          4147 Mar 05 19:04 co2_annmean_mlo.txt
+-rw-rw-r--    1 300      201          4937 Mar 05 19:04 co2_gr_gl.txt
+-rw-rw-r--    1 300      201          4592 Mar 05 19:04 co2_gr_mlo.txt
+-rw-rw-r--    1 300      201         22929 Mar 05 19:04 co2_mm_gl.txt
+-rw-rw-r--    1 300      201         46907 Mar 05 19:04 co2_mm_mlo.txt
+-rw-r--r--    1 300      201        160549 Apr 02 11:00 co2_weekly_mlo.txt
+-rw-r--r--    1 300      201          5389 Apr 02 11:00 co2_weekly_mlo_lastyear.txt
