@@ -27,16 +27,25 @@ Za polinoma stopnje $2$ in $20$ analitično oceni in numerično določi napako i
 Bonus. Koliko računskih operacij bi potrebovali za izračun funkcije $sin$ 
 v dvojni natančnosti, če bi jo računali z interpolacijskim polinomom v Čebiševih točkah? 
 
+\item Eliptični integral je dan s formulo
+  \begin{equation}
+    \label{eq:int}
+    K(\phi,m) = \int_0^\phi\frac{dt}{\sqrt{1-m\sin^2t}}.
+  \end{equation}
+\begin{enumerate}
+\item
+S sestavljenim Simpsonovim pravilom izračunaj približek za $K(0.5,2)$ na 5 
+decimalk natančno.  
 \item Eliptična funkcija $y=\sn(x,m)$ je definirana z relacijo
 \begin{equation}
-\sin(\phi)=\sn\left(\int_0^\phi\frac{dt}{\sqrt{1-m\sin^2t}},m\right).\label{eq:sn}
+\sin(\phi)=\sn\left(K(\phi,m)\right).\label{eq:sn}
 \end{equation}
-
-Izračunaj približek za $\mathrm{sn}(0.5,2)$, ki bo imel vsaj 5 pravilnih števk. \emph{Namig: Z eno od 
+Izračunaj približek za $\sn(0.5,2)$, ki bo imel vsaj 5 pravilnih števk. \emph{Namig: Z eno od 
 numeričnih metod za nelinearne enačbe poišči $\phi$, ki reši enačbo
 \begin{equation}
   \label{eq:enacba}
    x = 0.5 = \int_0^\phi\frac{dt}{\sqrt{1-2\sin^2t}}.
 \end{equation}}
+\end{enumerate}
 \end{enumerate}
 \end{document}
