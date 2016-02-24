@@ -1,0 +1,11 @@
+* Priprave na vaje 01
+- Koliko je največ korakov zanke, v kateri množite dve različni števili tipa *float*, ki jih je sposoben vaš računalnik izvesti prej kot v eni sekundi? Lahko uporabite katerikoli programski jezik, niti, več procesorjev. Primerjate število korakov s številom ljudi na svetu.
+
+- Koliko korakov zanke zmore računalnik v eni minuti, v eni uri, v enem dnevu, mesecu, letu.
+
+- Recimo, da hočete, da se algoritem izvede v manj kot eni minuti. Koliko je lahko število prostostnih stopenj $n$, če je časovna zahtevnost algoritma $n^2$, $n^3$ ali $2^n$?
+ 
+- Kako veliko kvadratno matriko 64-bitnih števil, lahko sprevite v spomin vašega računalnika? Preizkusite na svojem računalniku.
+
+- Kako natančno lahko v eni sekundi vaš računalnik izračuna $\pi^2/6$ s pomočjo vrste 
+$$\sum_{n=1}^\infty \frac{1}{n}?$$

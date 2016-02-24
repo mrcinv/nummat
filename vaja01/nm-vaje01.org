@@ -1,0 +1,116 @@
+* Vaja 1: Napake, stabilnost
+
+Ogledali si bomo od kod pridejo napake pri numeričnih izračunih in kako lahko zaokrožitvene napake povsem pokvarijo končni rezultat. Nadaljne branje prvo poglavje Plestenjakove skripte
+Vaja
+
+** Naloga 1: Izračunaj približek za kvadratni koren poljubnega pozitivnega števila samo z uporabo osnovnih operacij +,−,∗,/
+
+ - Metodo preskusi na nekaj primerih.
+ - Metodo zapakiraj v funkcijo, ki vrne rezultat na 10 decimalnih mest natančno.
+ - Funkciji dodaj teste
+ - Analiziraj napako in utemelji, da je napaka res manjša kot 1e-10
+
+Uporabi naslednje metode:
+ - Tayloryeva vrsta
+ - interpolacija s polinomom
+ - Haronov obrazec
+
+** Naloga 2
+
+Oceni neodstranljivo napako, napako metode in zaokrožitvene napake pri računanju $sin(\pi/10)$ s polinomom $x−x^3/6$ in uporabi številskega tipa double (64 bitno število s plavajočo vejico).
+
+*** Rešitev
+**** Neodstranljiva napaka
+Neodstranljivo napako lahko enostavno ocenimo s pomočjo odvoda. Ker število $\pi/10$ ni predstavljivo z binarnim zapisom, v resnici računamo s številom $\hat{x}$, ki se od $\pi/10$ relativno razlikuje za nek δ, ki je manjši od osnovne zaokrožitvene napake ($2^{−54}$ kar je približno $10^{−16}$).
+
+Neodstranljivo napako dobimo zato, ker namesto sin(π/10)
+računamo sin(π/10(1+δ))
+
+. Napako, ki jo pri tem naredimo, lahko ocenimo s pomočjo odvoda. Pomagamo si s formulo za ostnek Taylorjeve vrste
+f(x+h)−f(x)=hf′(ξ)ξ∈(x−h,x+h)
+
+Če uporabimo, da je |cos(x)|≤1
+
+, dobimo oceno za absolutno napako
+|sin(x(1+δ))−sin(x)|=|δxcos(xξ)|≤xδ≤δ,
+
+od koder sledi ocena za relativno napako
+∣∣∣sin(x(1+δ))−sin(x)sin(x)∣∣∣≤xsin(x)δ≤δ,
+
+saj je xsin(x)
+
+vedno manjši kot 1.
+
+Neodstranljiva napaka pri računanju funkcije sin
+je torej vedno manjša kot osnovna zaokrožitvena napaka. To je posledica dejstev, da je |sin(x)|≤x in |sin′(x)|≤1
+
+.
+Napaka metode
+
+Pri ocenjevanju napake metode, si zopet pomagamo s oceno z aostanek Taylorjeve vrste. Formulo
+sin(x)≃x−x3/6
+
+namreč dobimo iz razvoja funkcije sin
+v Taylorjevo vrsto okrog točke 0
+
+sin(x)=x−x3/6+x5/(5!)−x7/(7!)+...
+
+Formula za ostanek
+R3(x)=x5/(5!)−x7/(7!)+...
+
+je zelo podobna prvemu členu v ostanku
+R3(x)=f(5)(ξ)x5/(5!)=cos(ξ)x5120≤x5120,ξ∈(0,x)
+
+# ocena za napako metode dobimo, če namesto xi, vstavimo kar \pi/10
+from math import pi,factorial
+R = (pi/10)**5/factorial(5)
+print "Ocena za napako metode je", R
+
+Ocena za napako metode je 2.55016403988e-05
+
+V primerjavi z neodstranljivo napako, je napaka metode bistveno večja in predstavlja glavni del napake.
+Zaokrožitvene napake
+
+Če vrednosti polinoma p(x)=∑ni=0aixi
+stopnje n
+
+računamo s Hornejevim postopkom, lahko zaokrožitvene napake ocenimo s formulo
+∣∣∣p̂ −pp∣∣∣≤2n∑|ai||xi|∑aixiu,
+
+kjer je u
+osnovna zaokrožitvena napaka. Glej poglavje 1.6.3 v Plestenjakovi skripti. Glede na to, da je vrednost p
+
+precej daleč od ničle, zaokrožitvena napaka ne bo bistveno presegla osnovne zaokrožitvene napake.
+
+# zaokrožitvene napake pri računanju polinoma x-x^3/6
+x = pi/10
+Z = 2*3*(x+x**3)/(x-x**3)*2**(-54)
+print "Ocena za zaokrožitveno napako pri računanju polinoma", Z
+
+Ocena za zaokrožitveno napako pri računanju polinoma 4.06010970113e-16
+
+# celotna napaka
+x = pi/10
+p = x*(1-x*x/6)
+N = sin(x)-p
+print "Napaka metode in zaokrožitvena napaka pri računanju sin(pi/10)", N 
+
+Napaka metode in zaokrožitvena napaka pri računanju sin(pi/10) 2.5441796018e-05
+
+Vaja
+
+Izračunaj vrednost števila e
+
+(osnova naravnega logaritma) z uporabo definicije z limito
+e=limn→∞(1+1n)n.
+
+# število e lahko dobimo z uporabo funkcije exp
+e = exp(1)
+print e
+
+2.71828182846
+
+Rešitev
+
+Ker zaporedje, ki nastopa v definiciji števila e
+, počasi konvergira, namesto n vstavimo zaporedne potence števila 10.
