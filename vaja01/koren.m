@@ -31,3 +31,6 @@ endfunction
 %! %-------------------------
 %! % Graf napake na intervalu [0,5]
 
+% graf časovne zahtevnosti
+%!demo
+%! speed("koren(2,1/n)","",[1,2^15])
