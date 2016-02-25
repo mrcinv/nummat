@@ -1,9 +1,11 @@
 # Numerična matematika na FRI
 
-## Vaje
+Programi, ki jih delamo na vajah.
 
-Da bi čimveč odnesli od vaj, vam priporočam, da pred vajami rešite nalogo priprava na vaje. Naloga je kratka in 
-vam ne bi smela vzeti več kot 1/2 ure. Najdete jo v direktoriju `pripravaNN`. 
+## Rešitve
+
+Rešitve nalog z vaj se nahajajo v veji rešitve.
+
 
 ## Domače naloge
 
