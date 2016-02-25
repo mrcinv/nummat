@@ -26,10 +26,7 @@ endfunction
 %!demo
 %! x = linspace(0,5);
 %! y = koren(x);
-%! plot(x,log10(abs(y.^2-x)),'r',label="$\log_{10}(y^2-x)$")
-%! hold on
-%! plot(x,log10(sqrt(x)-y,'b')
-%! hold off
+%! plot(x,y.^2-x,"r;y^2-x;",x,sqrt(x)-y,"b;y-\sqrt{x};")
 %! title("Graf ostanka y^2-x in napake y-sqrt(x)")
 %! %-------------------------
 %! % Graf napake na intervalu [0,5]
