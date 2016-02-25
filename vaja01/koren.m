@@ -1,10 +1,10 @@
-% Funkcija y = koren(x)
+% Funkcija [y,it] = koren(x, nat=1e-10)
 %
-% izračuna kvadratni koren števila x z različnimi metodami
+% izračuna kvadratni koren števila x s tangentno metodo. 
 %
-function y = koren(x,nat=1e-10)
+function [y,it] = koren(x,nat=1e-10,maxit=100)
   y = x;
-  for i = 1:100
+  for it = 1:maxit
     delta = (y-x./y)/2;
     y = y - delta;
     %y = (y+x./y)/2;
@@ -20,15 +20,13 @@ endfunction
 %!test
 %! x = rand(10,1);
 %! assert(koren(x).^2,x,1e-10)
+%!test [y,it] = koren(rand()); it < 10;
 
 % graf napake
 %!demo
 %! x = linspace(0,5);
 %! y = koren(x);
-%! plot(x,log10(abs(y.^2-x)),'r',label="$\log_{10}(y^2-x)$")
-%! hold on
-%! plot(x,log10(sqrt(x)-y,'b')
-%! hold off
+%! plot(x,y.^2-x,"r;y^2-x;",x,sqrt(x)-y,"b;y-\sqrt{x};")
 %! title("Graf ostanka y^2-x in napake y-sqrt(x)")
 %! %-------------------------
 %! % Graf napake na intervalu [0,5]
