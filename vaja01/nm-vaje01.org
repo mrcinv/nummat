@@ -1,7 +1,6 @@
 * Vaja 1: Napake, stabilnost
 
-Ogledali si bomo od kod pridejo napake pri numeričnih izračunih in kako lahko zaokrožitvene napake povsem pokvarijo končni rezultat. Nadaljne branje prvo poglavje Plestenjakove skripte
-Vaja
+Ogledali si bomo od kod pridejo napake pri numeričnih izračunih in kako lahko zaokrožitvene napake povsem pokvarijo končni rezultat.
 
 ** Naloga 1: Izračunaj približek za kvadratni koren poljubnega pozitivnega števila samo z uporabo osnovnih operacij +,−,∗,/
 
@@ -13,7 +12,7 @@ Vaja
 Uporabi naslednje metode:
  - Tayloryeva vrsta
  - interpolacija s polinomom
- - Haronov obrazec
+ - Newton-Raphson metoda/Haronov obrazec
 
 ** Naloga 2
 
