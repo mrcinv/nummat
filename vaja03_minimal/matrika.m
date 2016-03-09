@@ -5,9 +5,9 @@
 % Matrika L je dimenzije (nm)x(nm).
 function L = matrika(n,m)
   N = n*m;
-  L = sparse(1:(N-n),(n+1):N,ones(N-n,1),N,N);
+  L = spdiags(ones(N,1),n,N,N);
   v = ones(N-1,1);
-  v(n:n-1:end-1) = 0;
+  v(n:n:end-1) = 0;
   L = L + sparse(1:N-1,2:N,v,N,N);
   L = L + L' - 4*speye(N);
 endfunction
@@ -22,7 +22,8 @@ endfunction
 %! L = matrika(5,10);
 %! assert(size(L),[50,50])
 %! assert(full(L(23,23)),-4)
-%! assert(full(L(5:6,6:7)),[0 0;-4 1])
+%! assert(full(L(4:6,5:7)),[1 0 0;-4 0 0;0 -4 1])
+%! assert(full(L(9:11,10:12)),[1 0 0;-4 0 0;0 -4 1])
 %! assert(L,L')
 %! assert(L(21:25,26:30),speye(5))
 %!test (issparse(matrika(randi(10),randi(10))))
