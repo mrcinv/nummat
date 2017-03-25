@@ -32,3 +32,16 @@ endfunction
 %! [x0,omega] = gauss_quad_rule(a,b,c,1,2);
 %! assert(sort(x0), 2+sqrt(2)*[-1,1],eps)
 %! assert(sort(omega), (2+sqrt(2)*[-1,1])/4,eps)
+
+%!demo
+%! a = @(n)  (2*n-1)/n; b = @(n) 0; c = @(n) (n-1)/n; mu=2;
+%! vozlisca = zeros(5);
+%! utezi = zeros(5);
+%! for n=1:5
+%!   [x0,omega] = gauss_quad_rule(a,b,c,mu,n);
+%!   vozlisca(n,1:n) = x0;
+%!   utezi(n,1:n) = omega;
+%! end
+%! vozlisca
+%! utezi
+%! # Tabela vozlišč in uteži Gauss-Legendrovih kvadratur za n=1 do n=5
