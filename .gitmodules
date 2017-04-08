@@ -1,0 +1,6 @@
+[submodule "arhiv/2014-15"]
+	path = arhiv/2014-15
+	url = git@github.com:mrcinv/nummat.git
+[submodule "arhiv/nummat"]
+	path = arhiv/2014-15
+	url = git@github.com:mrcinv/nummat.git
