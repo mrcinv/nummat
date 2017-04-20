@@ -1,0 +1,28 @@
+#+TITLE: Izpit iz Numerične matematika
+#+SUBTITLE: Ljubljana, 16. 6. 2016
+#+LANGUAGE: sl
+#+LATEX_HEADER: \usepackage[slovene]{babel}
+
+#+LATEX_HEADER: \usepackage{color}
+#+LATEX_HEADER: \DeclareMathOperator*\erf{erf}
+* Izpit iz Numerične matematike
+:PROPERTIES:
+:header-args: :session :exports both :results output
+:END:
+
+
+** Prva naloga
+Dan je sistem $2n$ linearnih enačb z $2n$ neznankami: 
+\[ -2^i x_{i} + x_{n+i} = b_i,\quad i=1,\ldots,n\]
+in 
+\[x_{i-n} - 2^{i-n} x_{i} = b_i,\quad i=n+1,\ldots,2n.\]
+- Poiščite rešitev sistema za $n=2$ in $b_i=i$.
+- Zapišite učinkovit in numerično stabilen algoritem za reševanje tega sistema.
+  Koliko operacij potrebuje vaš algoritem?
+  Poiščite rešitev sistema za $n=20$ in $b_i=i$.
+- Z inverzno potenčno metodo poiščite najmanjšo lastno vrednost matrike sistema
+  za $n=20$.
+
+** Druga naloga
+Dana je funkcija dveh spremenljivk
+\[f(x,y) = \sin(x\cos(y))\]

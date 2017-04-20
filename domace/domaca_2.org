@@ -1,0 +1,258 @@
+#+TITLE: Druga domača naloga 2015-16
+#+SUBTITLE: Numerična matematika
+#+LANGUAGE: sl
+#+LATEX_HEADER: \usepackage[slovene]{babel}
+
+* Navodila
+Izberite eno izmed spodnjih nalog. Domačo nalogo lahko delate skupaj s kolegi,
+vendar morate v tem primeru rešiti toliko različnih nalog, kot je študentov v
+skupini. Na učilnici oddajte le datoteke, ki jih zahteva naloga. Morebitne
+pomožne funkcije dodajte v datoteke z glavnimi funkcijami. 
+
+Vsaka datoteka naj vsebuje komentar s pomočjo za funkcijo, teste v obliki 
+#+BEGIN_SRC octave
+%!test
+%! assert ...
+#+END_SRC
+in predstavitveno kodo funkcije v obliki
+#+BEGIN_SRC octave
+%!demo
+%! # Primer uporabe funkcije
+%! y = funkcija(1,2,3) ... 
+#+END_SRC
+
+* Naloge
+** Bézerova krivulja 
+Naj bodo \(b_i\), \(i=0,1,\dots,n\), točke v ravnini. *Bézierova* ravninska krivulja stopnje \(n\) je definirana s predpisom
+
+\[ \mathbf{b}(t)=\sum_{i=0}^n b_i\,B_i^n(t),\
+B_i^n(t)={{n}\choose{i}}\,t^i\,(1-t)^{n-i}, \quad t\in[0,1]. \] 
+Točkam \(\mathbf{b}_i\) rečemo *kontrolne točke* Bézierove krivulje, daljicam,
+ki jih zaporedoma povezujejo, pa *kontrolni poligon*. Pri danem parametru
+\(t_0\in[0,1]\), lahko točko \(\mathbf{b}(t_0)\) na krivulji izračunamo direktno
+po formuli, ali po De Casteljauovem algoritmu takole: 
+
+\[\mathbf{b}_i^r(t_0)=(1-t_0)\,\mathbf{b}_i^{r-1}(t_0)+t_0\,
+\mathbf{b}_{i+1}^{r-1}(t_0), \quad r=1,\dots,n,\quad i=0,\dots,n-r,\] 
+kjer je \(\mathbf{b}_i^0(t_0)=\mathbf{b}_i\) in
+ \(\mathbf{b}_0^n(t_0)=\mathbf{b}(t_0)\). Pri tem zgornji indeksi ne pomenijo
+ potenciranja, ampak nivo, na katerem se trenutno nahajamo!
+
+ Napišite funkcijo =bezier2d.m=, ki izračuna vrednost \(\mathbf{b}(t_0)\)
+ direktno po formuli in po De Casteljauovem algoritmu. Klic funkcije naj bo
+ oblike =[v1,v2]=bezier2d(b,t)=, kjer je 
+  - =v1= vrednost direktno po formuli,
+  - =v2= vrednost po DeCasteljauovem algoritmu,
+  - =b= tabela kontrolnih točk dimenzije \(2\times (n+1)\) (v prvi vrstici so
+    \(x\) koordinate točk, v drugi pa \(y\) koordinate točk)
+  - =t= parameter \(t\), pri katerem računamo vrednost Bézierove krivulje. 
+
+Ne spreglejte, da sta =v1= in =v2= vektorja dimenzije \(2\times 1\), torej
+morata biti stolpca dimenzije \(2\). Vse pomožne funkcije naj bodo napisane 
+v datoteki =bezier2d.m=.
+*** Naloga za zagovor
+- Na isto sliko narišite Bèzierovo krivuljo in kontrolni poligon, ki predstavlja
+  veliko pisano črko C. 
+- Na 12 decimalnih mest natančno poiščite koordinate točke na krivulji, ki ima
+  $y$ koordinato enako povprečju $y$ koordinat točk kontrolnega polinoma. 
+** Racionalna Bézerova krivulja 
+Če so \({\mathbf b}_i\), \(i=0,1,\dots,n\) točke v ravnini in \(w_i\) pozitivna
+števila, potem je s predpisom 
+
+\[ {\mathbf b}(t)=\sum_{i=0}^n{\mathbf b}_i\,\frac{w_i\,B_i^n(t)} {\sum_{j=0}^n
+w_j\,B_j^n(t)},\ B_i^n(t)={{n}\choose{i}}\,t^i\,(1-t)^{n-i}, \quad t\in[0,1], \]
+definirana *racionalna Bézierova krivulja* stopnje \(n\). Daljice, ki zaporedoma
+povezujejo točke \({\mathbf b}_i\), se imenujejo *kontrolni poligon* Bézierove
+krivulje. Znano je, da lahko točko na Bézierovi krivulji pri parametru
+\(t_0\in[0,1]\) izračunamo tudi z *de Casteljauovim* algoritmom 
+
+\[\begin{array}{ccc} {\mathbf
+b}_i^r(t_0)&=&(1-t_0)\,\frac{w_i^{r-1}(t_0)}{w_i^r(t_0)}\, {\mathbf
+b}_i^{r-1}(t_0) +t_0\,\frac{w_{i+1}^{r-1}(t_0)}{w_i^r(t_0)}\, {\mathbf
+b}_{i+1}^{r-1}(t_0),\\ w_i^r(t_0)&=&(1-t_0)\,w_i^{r-1}(t_0)+t_0\,w_{i+1}^{r-1}(t_0),\\ \end{array}\]
+kjer je \(r=1,\dots,n\), \(i=0,1,\dots,n-r\) in \({\mathbf
+b}_i^0(t_0)={\mathbf b}_i\), \(w_i^0(t_0)=w_i\) ter velja \({\mathbf
+b}_0^n(t_0)={\mathbf b}(t_0)\). Pri tem zgornji indeksi ne pomenijo
+potenciranja, ampak nivo, na katerem se trenutno nahajamo!
+
+Napišite funkcijo =rat_bezier2d.m=, ki izračuna
+točko na racionalni Bézierovi krivulji pri danem parametru direktno po prvi
+formuli in po de Casteljauovem algoritmu. Klic funkcije naj bo oblike
+
+=[v1,v2]=rat_bezier2d(b,w,t)=, 
+
+kjer je 
+ - =v1= vrednost direktno po formuli,
+ - =v2= vrednost po De Casteljauovem algoritmu,
+ - =b= tabela kontrolnih točk dimenzije \(2\times(n+1)\) (v prvi vrstici so
+   \(x\) koordinate točk, v drugi pa \(y\) koordinate točk),
+ - =w= vektor (vrstica) uteži dimenzije \((n+1)\) in
+ - =t= parameter \(t\), pri katerem računamo vrednost racionalne Bézierove
+   krivulje. 
+
+Ne spreglejte, da sta =v1= in =v2= vektorja dimenzije \(2\times 1\), torej
+morata biti stolpca dimenzije \(2\). Vse pomožne funkcije naj bodo napisane v
+datoteki =rat_bezier2d.m=.
+*** Naloga za zagovor
+- Na isto sliko narišite Bèzierovo krivuljo in kontrolni poligon, ki predstavlja
+  veliko pisano črko C. 
+- Racionalna Bèzierova krivulja s kontrolnim poligonom $(1,0),(1,1),(0,1)$ in
+  utežmi $1,\alpha,1$ lahko povsem opiše četrtino enotske krožnice. Na 12
+  decimalnih mest poiščite vrednost parametra $\alpha$, pri katerem dobimo
+  četrtino enotske krožnice.
+** Inverzna potenčna metoda za zgornje hessenbergovo matriko
+Lastne vektorje matrike $A$ lahko računamo z *inverzno potenčno metodo*. Naj bo
+\(A_\lambda = A-\lambda I\). Če je \(\lambda\) približek za lastno vrednost,
+potem zaporedje vektorjev 
+
+\[x^{(n+1)}=\frac{A_\lambda^{-1}x^{(n)}}{|A_\lambda^{-1}x^{(n)}|},\]
+
+konvergira k lastnemu vektorju za lastno vrednost, ki je po absolutni vrednosti
+najbližje vrednosti \(\lambda\).
+
+Napišite funkcijo =[lv,lambda]=inv_lastni(A,l)=, ki izračuna lastni vektor in
+točno lastno matrike A, kjer je =l= približek za lastno vrednost. Inverza
+matrike $A$ nikar ne računajte, ampak raje  uporabite LU razcep in na vsakem
+koraku rešite sistem \(L(Ux^{n+1})=x^n\). 
+
+Da bi zmanjšali število operacij na eni iteraciji, lahko poljubno matriko $A$
+prevedemo v zgornje hessenbergovo obliko (velja \(a_{ij}=0\) za \(j<j-2i\)). 
+S hausholderjevimi zrcaljenji lahko poiščemo zgornje hesenbergovo
+matriko H, ki je podobna matriki A:
+
+\[H=Q^TAQ\]
+Če je $v$ lastni vektor matrike $H$, je $Qv$ lastni vektor matrike $A$, lastne
+vrednosti matrik $H$ in $A$ pa so enake.
+
+Napišite funkcijo =[H,Q]=hessenberg(A)=, ki s Hausholderjevimi zrcaljenji poišče
+zgornje hesenbergovo matriko $H$, ki je podobna matriki A. Popravite metodo
+=inv_lastni(A,l)=, tako da bo uporabila funkcijo =hessenberg= in izvedla LU
+razcep, ki bo upošteval posebnost zgornje hessenbergove matrike.
+
+
+Metodo preskusite za izračun ničel polinoma. Polinomu 
+\[x^n + a_{n-1}x^{n-2} + \ldots a_1x + a_0\] lahko priredimo matriko 
+
+\[
+\begin{bmatrix}
+0 &0&\ldots&0&-a_0\\
+1&0&\ldots&0&-a_1\\
+0&1&\ldots&0&-a_2\\
+\vdots &\vdots& \ddots& \vdots&\vdots\\
+0 & 0& \ldots &1&-a_{n-1} 
+\end{bmatrix},
+\]
+katere lastne vrednosti se ujemajo z ničlami odvoda.
+*** Naloge za zagovor
++ Algoritem preskusite za matriko Toeplitzevo matriko $n\times n$, ki jo dobite z
+  ukazom =toeplitz(1:n)=. 
++ Narišite graf časovne zahtevnosti za matriko $n\times n$ s samimi enkami.
+  Uporabite ukaza =tic= in =toc=. 
+** Inverzna potenčna metoda za tridiagonalno  matriko
+Lastne vektorje matrike $A$ lahko računamo z *inverzno potenčno metodo*. Naj bo
+\(A_\lambda = A-\lambda I\). Če je \(\lambda\) približek za lastno vrednost,
+potem zaporedje vektorjev 
+
+\[x^{(n+1)}=\frac{A_\lambda^{-1}x^{(n)}}{|A_\lambda^{-1}x^{(n)}|},\]
+konvergira k lastnemu vektorju za lastno vrednost, ki je po absolutni vrednosti
+najbližje vrednosti \(\lambda\).
+
+Napišite funkcijo =[lv,lambda]=inv_lastni(A,l)=, ki izračuna lastni vektor in
+točno lastno vrednost matrike A. Pri čemer je =l= približek za lastno
+vrednost.  Inverza matrike $A$ nikar ne računajte, ampak raje uporabite LU
+razcep in na vsakem koraku rešite sistem \(L(Ux^{n+1})=x^n\).
+
+Da bi zmanjšali število operacij na eni iteraciji, lahko vsako simetrično
+matriko $A$ preoblikujemo v tridiagonalno obliko. S hausholderjevimi zrcaljenji
+lahko poiščemo tridiagonalno matriko T, ki je podobna matriki A: 
+
+\[T=Q^TAQ\]
+Če je $v$ lastni vektor matrike $T$, je $Qv$ lastni vektor matrike $A$, lastne
+vrednosti matrik $T$ in $A$ pa so enake.
+
+Napišite funkcijo =[T,Q]=tridiag(A)=, ki s hausholderjevimi zrcaljenji poišče
+tirdiagonalno matriko =T=, ki je podobna matriki A:
+
+\[T=Q^TAQ\]
+Matrika =T=, ki jo vrne funkcija =tridaig=, naj bo $n\times 3$ matrika, tako da
+bo vsaka vrstica matrike =T= vsebovala le neničelne elemente tridiagonalne
+matrike $T$.
+ 
+Metodo =inv_lastni= popravite tako, da preveri, če je matrika simetrična in v
+tem primeru namesto matrike 
+$A$ uporabi tridiagonalno matriko $T$, ki je podobna matriki $A$.
+
+Metodo preskusite na Laplaceovi matriki, ki ima vse elemente $0$ razen
+$l_{ii}=-2$, $l_{i+1,j}=l_{i,j+1}=1$. 
+Poiščite nekaj lastnih vektorjev za najmanjše lastne vrednosti in jih
+vizualizirajte z ukazom =plot=.  
+*** Naloge za zagovor
++ Algoritem preskusite za matriko Toeplitzevo matriko $n\times n$, ki jo dobite z
+  ukazom =toeplitz(1:n)=. 
++ Narišite graf časovne zahtevnosti za matriko $n\times n$ s samimi enkami.
+  Uporabite ukaza =tic= in =toc=. 
+** Naravni zlepek
+
+  Danih je \(n\) interpolacijskih točk \((x_i,f_i)\), \(i=1,2,\dots,n\).
+  *Naravni interpolacijski kubični zlepek* \(S\) je funkcija, ki 
+  izpolnjuje naslednje pogoje:
+    1. \(S(x_i)=f_i, \quad i=1,2,\dots,n.\)
+    2. \(S\) je polinom stopnje \(3\) ali
+       manj na vsakem podintervalu  \([x_i,x_{i+1}]\), \(i=1,2,\dots,n-1\).
+    3. \(S\) je dvakrat zvezno odvedljiva funkcija na interpolacijskem intervalu
+       \([x_1,x_n]\)
+    4. \(S^{\prime\prime}(x_1)=S^{\prime\prime}(x_n)=0\).
+  
+  Zlepek \(S\) določimo tako, da postavimo
+
+  \[S(x)=S_i(x)=a_i+b_i\,(x-x_i)+c_i\,(x-x_i)^2+d_i\,(x-x_i)^3, \quad
+  x\in[x_i,x_{i+1}],\]
+  nato pa izpolnimo zahtevane pogoje [1].
+ 
+  Napišite funkcijo =zlepek.m=, ki izračuna polinome \(S_i\) in funkcijo
+  =zlepek_val.m=, ki vrne vrednost zlepka v dani točki. Klic funkcije =zlepek= naj ima obliko
+  =S=zlepek(T)=, kjer je
+   - =S= tabela polinomov \(S_i\) v zlepku (dimenzija tabele je \((n-1)\times
+     4\), vsaka vrstica pa predstavlja koeficiente \(a_i\), \(b_i\), \(c_i\) in \(d_i\) polinoma \(S_i\)),
+   - =T= tabela dimenzije \(n\times 2\), v kateri prvi stolpec predstavlja
+     vrednosti \(x_i\), drugi pa vrednosti \(f_i\).
+  Klic funkcije =zlepek_val= naj ima obliko =yzl = zlepek_val(S,xzl)=, kjer je 
+   - =yzl= vrednost zlepka v točki =xzl=,
+   - =S= tabela polinomov, kot jo vrne funkcija =zlepek=.
+  Predpostavite lahko, da so vrednosti \(x_i\) urejene po velikosti od najmanjše do največje.
+  
+[1] pomagajte si z: Bronštejn, Semendjajev, Musiol, Mühlig: 
+  *Matematični priročnik*,
+  Tehniška založba Slovenije, 1997, str. 754
+  ali pa J. Petrišič: *Interpolacija*, Univerza v Ljubljani,
+  Fakulteta za strojništvo, Ljubljana, 1999, str. 47
+*** Naloga za zagovor
+- Poiščite zlepek, ki interpolira funkcijo $\sin(x)$ v točkah
+  $x_i=\frac{2k\pi}{5},\quad k=0,\ldots,5$. Na isto sliko narišite zlepek in
+  interpolacijske točke. 
+- Na 12 decimalnih mest natančno poiščite lokacijo maksimuma zlepka.  
+** Vložitev grafa v $\mathbb{R}^3$ 
+Graf $G$ na točkah $v(G)=1,2,...,n$ lahko podamo z adjunkcijsko matriko $A$, za katero velja:
+
+\[A(i,j)=\begin{cases} 1& i, j\textrm{ sta povezana}\cr 0
+&\textrm{sicer}.\end{cases} \]
+Zaporedje točk \(x_1,x_2...x_n\in \mathbb{R}^3\)  je vložitev grafa v
+trirazsežen prostor. Posebno vložitev dobimo tako, da za koordiante točk v grafu 
+vzamemo komponente lastnih vektorjev za 2., 3. in 4. lastno vrednost
+adjunkcijske matrike $A$.
+
+Poišči lastne vektorje za 4 največje lastne vrednosti adjunkcijske matrike s
+potenčno metodo kombinirano s QR razcepom. Potenčno metodo predelamo tako, da
+namesto, da na vsakem koraku množimo matriko z vektorjem, jo pomnožimo z
+$n\times 4$ matriko. Stolpce matrike nato ortonormiramo s QR razcepom.
+  
+Napišite funkcijo =[v,l]=potencna4(A)=, ki za simetrično matriko A
+poišče lastne vektorje za 4 največje lastne vrednosti. 
+
+Napišite tudi funkcijo =narisi_graf(A)=, ki nariše zgoraj
+omenjeno tridimenzionalno vložitev grafa podanega z adjunkcijsko matriko
+=A=.
+*** Naloga za zagovor 
+- Uporabite svoj program in narišite cikel s 1000 vozlišči.
+- Za cikel dolžine $n$ narišite graf časovne zahtevnosti. Uporabite lahko
+  funkciji =tic= in =toc=. Kakšna je časovna zahtevnost algoritma?

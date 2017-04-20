@@ -1,0 +1,48 @@
+\documentclass[slovene,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{mathpazo}
+\usepackage{amsmath}
+\DeclareMathOperator*\sn{sn}
+\usepackage{listings}
+\lstset{basicstyle={\footnotesize},
+frame=lines,
+language=Octave,
+literate={{č}{{\v{c}}}1 {š}{{\v{s}}}1 {ž}{{\v{z}}}1}}
+\usepackage{textcomp}
+\usepackage{babel}
+\begin{document}
+\begin{center}
+\section*{Izpit iz Numerične matematike}
+
+Ljubljana, 9. 9. 2015
+\end{center}
+\vskip2cm
+\pagestyle{empty}
+
+\begin{enumerate}
+\item Izračunajte ploščino lika, ki ga omejujeta grafa funkcij
+  \begin{equation}
+    \label{eq:lik}
+    y=2^x\text{ in } y=\cos(x^2)
+  \end{equation}
+na intervalu $x\in[-3,-2]$. Ploščino izračunajte na 5 decimalk natančno. Ocenite relativno in absolutno napako.
+
+\item Dan je tridiagonalen sistem enačb
+  \begin{eqnarray}
+    \label{eq:sistem}
+    -x_{i-2}+(i+1)x_i-x_{i+2}=b_i;\quad i=1,\ldots,n
+  \end{eqnarray}
+  za spremenljivke $x_1,x_2,\ldots x_n$. Pri tem predpostavimo, da so manjkajoče vrednosti  enake nič $x_{-1}=x_{0}=x_{n+1}=x_{n+2}=0$.
+  \begin{enumerate}
+  \item Zapišite učinkovit algoritem za reševanje zgornjega sistema. Utemeljite, zakaj je algoritem numerično stabilen.
+  \item Z vašim algoritmom rešite sistem za $n=4$ in $n=20$ z vrednostmi $b_i=1$.
+  \item Z inverzno iteracijo poiščite najmanjšo lastno vrednost matrike sistema za $n=20$.
+  \end{enumerate}
+\end{enumerate}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

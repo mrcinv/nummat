@@ -1,0 +1,252 @@
+* Minimalne ploskve
+Vsi smo že kdaj pihali milne mehurčke. Če žično zanko potopimo v milnico, se nanjo napne milna opna in dobimo zanimive oblike. 
+Navdušenje nad minimalnimi ploskvami sta pokazala tudi arhitekta Muenchenskega olimpijskega parka, kjer ima streha obliko minimalne ploskve.
+
+[[https://www.youtube.com/watch?v=JbJw7uyT-uI][Film o arhitektu Ottu Frei]]
+
+
+** Naloga
+Radi bi poiskali obliko milne opne, razpete na žični zanki. Malo brskanja
+po fizikalnih knjigah in internetu hitro razkrije, da ploskve, ki
+tako nastanejo, sodijo med [[http://en.wikipedia.org/wiki/Minimal_surface][minimalne ploskve]].
+
+Ploskev lahko predstavimo s funkcijo dveh spremenljivk $u(x,y)$,
+ki predstavlja višino ploskve nad točko $(x,y)$. Naša naloga bo poiskati
+funkcijo $u(x,y)$ na tlorisu žične mreže. 
+
+Funkcija $u(x,y)$, ki opisuje milno opno, zadošča matematična enačbi,
+znani pod imenom \emph{Poissonova enačba}\begin{equation}
+\Delta u(x,y)=\rho(x,y).\label{eq:Poisson}\end{equation}
+Funkcija $\rho(x,y)$ je sorazmerna tlačni razliki med zunanjo in
+notranjo površino milne opne. Tlačna razlika je lahko posledica višjega
+tlaka v notranjosti milnega mehurčka ali pa teže, v primeru opne,
+napete na žični zanki. 
+
+
+** Diskretizacija in linearni sistem enačb
+
+Problema se bomo lotili numerično, zato bomo vrednosti $u(x,y)$ poiskali
+le v končno mnogo točkah: problem bomo *diskretizirali*. Za diskretizacijo
+je najpreprosteje uporabiti enakomerno razporejeno pravokotno mrežo
+točk. Točke na mreži imenujemo *vozlišča*. Zaradi enostavnosti
+bomo obravnavali le mreže pri katerih je razmik med vozlišči v obeh koordinatnih smereh enak.
+
+%
+\begin{figure}[H]
+\includegraphics{mreza}
+
+\caption{Mreža vozlišč na tlorisu žične zanke}
+
+\end{figure}
+
+
+Označimo z $(a,b)$ levo spodnje, s $(c,d)$ pa desno zgornje ogljišče
+tlorisa zanke in naj $h=\frac{d-b}{n}$ in $k=\frac{c-a}{n}$ določata
+gostoto mreže v $x$ oziroma $y$ smeri. V mreži so torej točke s
+koordinami oblike
+
+\begin{eqnarray*}
+x_{j} & = & a+jh\\
+y_{i} & = & b+ik
+\end{eqnarray*}
+
+za $i,j=0,\ldots,n+1$. Zanimajo nas le vrednosti v točkah na mreži
+in namesto funkcije $u(x,y)$ iščemo matriko $U=[u_{i,j}]$ dimenzije
+$n\times n$, v kateri bodo približne vrednosti $u_{i,j}=u(x_{j},y_{i})$.
+Obliko žične zanke opisujejo vrednosti funkcije $u$ na robu pravokotnika,
+ki so podane kot vhodni podatek. Poznane so torej vrednosti $u_{0,j},\, u_{n+1,j},\, u_{i,0}$
+in $u_{i,n+1}$ za poljubne vrednosti indeksov $i$ in $j$. Naslednji
+korak je diskretizacija Poissonove enačbe \eqref{eq:Poisson}. Namesto
+enačbe za zvezno funkcijo $u(x,y)$, dobimo $n^{2}$ enačb 
+\[\Delta u_{i,j}=\rho(x_{j},y_{i})\]
+z $n^{2}$ neznankami $u_{i,j}$. Diskretni približek za Laplaceov
+operator 
+
+\begin{equation}
+\Delta u=\frac{\partial^{2}u}{\partial x^{2}}+\frac{\partial^{2}u}{\partial y^{2}}\label{eq:Laplace}
+\end{equation}
+
+dobimo z drugimi diferencami 
+
+\begin{eqnarray*}
+\frac{\partial^{2}u(x_{j},y_{i})}{\partial x^{2}} & = & \frac{1}{h^{2}}\left(u(x_{j}+h,y_{i})-2u(x_{j},y_{i})+u(x_{j}-h,y_{i})\right)\\
+ & = & \frac{1}{h^{2}}\left(u_{i,j+1}-2u_{i,j}+u_{i,j-1}\right)
+\end{eqnarray*}
+
+in podobno za odvod po $y$. Tako dobimo formulo za Laplaceov operator
+\eqref{eq:Laplace}
+
+\[ \Delta
+u(x_{j},y_{i})=\frac{1}{h^{2}}\left(u_{i,j+1}+u_{i+1,j}-4u_{i,j}+u_{i,j-1}+u_{i-1,j}\right).
+\]
+
+Če upoštevamo še, da so $u_{i,j}$ podani z robnimi pogoji za $i,j=0,n+1$, dobimo
+sistem enačb za $u(x,y)$
+
+\begin{eqnarray} -4u_{1,1}+u_{1,2}+u_{2,1}= &
+h^{2}\rho_{1,1}-u_{1,0}-u_{0,1} & =b_{1}\nonumber
+\\ u_{1,1}-4u_{1,2}+u_{1,3}+u_{2,2}= & h^{2}\rho_{1,2}-u_{0,2} & =b_{2}\nonumber
+\\
+\vdots & \vdots & \vdots\nonumber \\
+u_{n-1,n}+u_{n,n-1}-4u_{n,n}= & h^{2}\rho_{n,n}-u_{n,n+1}-u_{n+1,n} &
+=b_{n}\label{eq:sistemM}\end{eqnarray} 
+
+V vsakem notranjem vozlišču mreže dobimo
+eno linearno enačbo, ki skupaj tvorijo sistem $n^{2}$ linearnih enačb z $n^{2}$
+neznankami. Ne pozabimo, da so vrednosti $u$ znane v robnih vozliščih. Ker bomo
+sistem reševali z iteracijo, lahko za računanje uporabimo kar matriko
+$U=[u_{i,j}]_{0\le i,j\le n+1}$.
+
+
+** Matrična oblika sistema
+
+V primeru, da bi imeli opraviti z nehomogenim ali celo neizotropnim
+problemom, koeficientov sistema ne bi bilo mogoče vgraditi v program.
+V tem primeru bi bilo bolj pregledno sistem zapisati v matrični obliki,
+tako da elemente matrike $u_{i,j}$ zložimo v en sam stolpec. Stolpce
+matrike $[u_{i,j}]_{j}$ razvrstimo enega pod drugim in dobimo vektor
+$u$ dolžine $n^{2}$. \begin{eqnarray*}
+u & = & [u_{1,1},\, u_{2,1},\, u_{3,1},\ldots\\
+ & \ldots, & u_{1,2},\, u_{2,2},\ldots,\, u_{n,1},\, u_{n,2},\ldots.,\, u_{n,n}]^{T}.\end{eqnarray*}
+Povezava med elementi matrike $U=[u_{i,j}]$ in vektorja $u=[u_{k}]$
+je dana z enačbo \[
+u_{i,j}=u(j(n-1)+i).\]
+Enačbe \eqref{eq:sistemM} se sedaj glasijo \begin{eqnarray*}
+-4u_{1}+u_{2}+u_{n+1} & = & b_{1}\\
+u_{1}-4u_{2}+u_{3}+u_{n+2} & = & b_{2}\\
+\vdots\\
+u_{1}-4u_{n+1}+u_{n+2}+u_{2n+1} & = & b_{n+1}\\
+\vdots\\
+u_{i}+u_{n+i-1}-4u_{n+i}+u_{n+i+1}+u_{2n+i} & = & b_{n+i}\\
+\vdots\\
+u_{n^{2}-n}+u_{n^{2}-1}-4u_{n^{2}} & = & b_{n^{2}}\end{eqnarray*}
+ Matrika sistema je bločna \[
+A=\left(\begin{array}{cccccc}
+L & I & 0 & \cdots & \cdots & 0\\
+I & L & I & 0 & \cdots & 0\\
+0 & I & L & I & \ddots & \vdots\\
+\vdots & 0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \vdots & \ddots & I & L & I\\
+0 & \cdots & \cdots & 0 & I & L\end{array}\right)\]
+ z bloki velikosti $n\times n$, kjer so matrike $I$ identične $n\times n$
+matrike in $L$ Laplaceove matrike oblike \begin{eqnarray*}
+L & = & \left(\begin{array}{ccccc}
+-4 & 1 & 0 & \cdots & 0\\
+1 & -4 & 1 & \ddots & \vdots\\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \ddots & 1 & -4 & 1\\
+0 & \cdots & 0 & 1 & -4\end{array}\right).\end{eqnarray*}
+%
+\begin{figure}[h]
+\includegraphics[width=0.6\textwidth]{matrika}
+
+\caption{Matrika sistema}
+
+
+
+\end{figure}
+ 
+
+Za rešitev sistema potrebujemo še vektor desnih strani, ki ga izračunamo
+iz robnih pogojev. \begin{eqnarray*}
+b & = & h^{2}\rho(x,y)-[u_{0,1}+u_{1,0},u_{0,2},\ldots,u_{0,n}+u_{1,n+1},u_{2,0},\\
+ &  & 0,\ldots,0,u_{2,n+1},u_{3,0},\ldots\\
+ &  & ,u_{n,0}+u_{n+1,1},u_{n+1,2},\ldots,u_{n+1,n}+u_{n,n+1}]^{T}.\end{eqnarray*}
+Matrika sistema je precej {}``prazna'', zato jo je smiselno hraniti
+v kompaktni obliki $5\times n^{2}$ podobno kot pri reševanju tridiagonalnega
+sistema. Algoritem je potrebno ustrezno prilagoditi.
+
+Do istih enačb pridemo tudi fizikalno z {}``mahanjem rok''. Predpostavimo,
+da na vrednost v $u(i,j)$ vplivajo le sosednja vozlišča v mreži,
+in sicer $u(i-1,j)$, $u(i,j+1)$, $u(i+1,j)$ in $u(i,j-1)$.
+
+%
+\begin{figure}[H]
+\includegraphics{sosedje}
+
+\caption{Sosednja vozlišča, ki jih v enačbi upoštevamo.}
+
+\end{figure}
+
+
+V ravnovesni legi bo vsota vseh sil, ki delujejo na dano točko $(x_{j},y_{i})$
+v mreži, enaka nič. Sila med dvema sosednjima točkama je sorazmerna
+njuni višinski razliki (glej sliko).
+
+%
+\begin{figure}[H]
+\includegraphics{sile}
+
+\caption{Sile med sosednjimi točkami v mreži}
+
+\end{figure}
+
+
+Sila, ki je posledica tlačne razlike $\rho(x,y),$ pa je sorazmerna
+površini malega kvadratka $h^{2}$ \begin{eqnarray*}
+((u_{i-1,j}-u_{i,j})+(u_{i,j+1}-u_{i,j})+(u_{i+1,j}-u_{i,j})+(u_{i,j-1}-u_{i,j})) & = & h^{2}\rho_{i,j}\\
+u_{i-1,j}+u_{i,j-1}+u_{i+1,j}+u_{i,j+1}-4u_{i,j} & = & h^{2}\rho_{i,j}\end{eqnarray*}
+
+
+
+** Reševanje sistema z Jacobijevo iteracijo
+
+Ker je matrika sistema skoraj prazna, je smiselno uporabiti katero
+od iteracijskih metod. Predvsem prostorski prihranek bo tako precejšen
+in bo omogočil reševanje sistema tudi za zelo velike dimenzije, ko
+bi sicer zmanjkalo pomnilnika. Matrika sistema je \emph{diagonalno
+dominantna} po vrsticah in po stolpcih, ni pa strogo diagonalno dominantna.
+Ker je v matriki majhno število različnih elementov, bomo matriko
+sistema vgradili kar v algoritem.
+
+Rešitev sistema $Ax=b$ z \emph{Jacobijevo} iteracijo dobimo kot zaporedje
+približkov \[
+Dx_{n+1}=b-(S+Z)x_{n},\]
+ kjer je $D$ diagonala matrike $A$, $S+Z$ pa preostanek matrike
+$A$ ($A$ brez diagonale). Naslednji približek po komponentah tako
+dobimo s formulo \begin{equation}
+x_{i}^{k+1}=\frac{1}{a_{i,i}}\left(b_{i}-\sum_{j=1,j\neq i}^{n}a_{i,j}x_{j}^{k}\right)\label{eq:Jacobi}\end{equation}
+ Za našo matriko bodo v vsoti nastopali največ štirje členi \begin{eqnarray*}
+x_{i}^{k+1} & = & \frac{1}{-4}\left(b_{i}-x_{i-1}^{k}-x_{i+1}^{k}-x_{i-n}^{k}-x_{i+n}^{k}\right),\quad i\neq kn+1,kn-1\\
+x_{i}^{k+1} & = & \frac{1}{-4}\left(b_{i}-x_{i+1}^{k}-x_{i-n}^{k}-x_{i+n}^{k}\right),\quad i=kn+1\\
+x_{i}^{k+1} & = & \frac{1}{-4}\left(b_{i}-x_{i-1}^{k}-x_{i-n}^{k}-x_{i+n}^{k}\right),\quad i=kn-1,\end{eqnarray*}
+ pri čemer so elementi $x_{j}$ z indeksom $j<0$ ali $j>n^{2}$ enaki
+$0$.
+
+
+\subsection*{Gauss-Seidlova iteracija}
+
+Konvergenco iteracije lahko izboljšamo, če pri Jacobijevi iteraciji
+v formuli \eqref{eq:Jacobi} uporabimo tiste komponente novega približka
+$\mathbf{x}^{k+1}$, ki jih že poznamo. Tako dobimo \emph{Gauss-Seidlovo
+iteracijo} \begin{equation}
+x_{i}^{k+1}=\frac{1}{a_{i,i}}\left(b_{i}-\sum_{j=1}^{i-1}a_{i,j}x_{j}^{k+1}-\sum_{j=i+1}^{n}a_{i,j}x_{j}^{k}\right)\label{eq:Gauss-Seidl}\end{equation}
+ Za našo matriko dobimo formulo za izračun naslednjega približka.
+\[
+x_{i}^{k+1}=\frac{1}{-4}\left(b_{i}-x_{i-1}^{k+1}-x_{i+1}^{k}-x_{i-n}^{k+1}-x_{i+n}^{k}\right),\quad i\neq kn\pm1.\]
+ Podobno naredimo še v ostalih vrsticah.
+
+
+\subsection*{SOR iteracija}
+
+Kot smo se prepričali na zgornjem primeru, je konvergenca Jacobieve
+in Gauss-Seidlove iteracije včasih kaj klavrna. Zato so pred nekaj
+desetletji razvili iteracijsko shemo \emph{SOR}. Pri tej metodi približke,
+dobljene z Gauss-Seidlovo iteracijo, \char`\"{}relaksiramo\char`\"{}
+s prejšnjim približkom. Formule (\ref{eq:Gauss-Seidl}) popravimo,
+tako da nov približek po Gauss-Seidlu pomnožimo z $\omega$ in mu
+prištejemo $(1-\omega)$ krat prejšnji približek. \begin{equation}
+x_{i}^{k+1}=\omega\left(\frac{1}{a_{i,i}}\left(b_{i}-\sum_{j=1}^{i-1}a_{i,j}x_{j}^{k+1}-\sum_{j=i+1}^{n}a_{i,j}x_{j}^{k}\right)\right)+(1-\omega)x_{i}^{k}.\end{equation}
+ Tako dobimo celo družino iteracij, parametrizirano z $\omega$. Za
+$\omega=1$ dobimo Gauss-Seidlovo iteracijo. Konvergenca je seveda
+odvisna od izbire $\omega$ in mogoče je pokazati, da SOR ne konvergira
+za $\omega\not\in(0,2)$.
+
+
+\subsection*{Primer}
+
+Poglejmo si še primer, ki je na začetni sliki. Tloris zanke je kvadrat
+$[-1,1]\times[-1,1]$. Ploskev je na robu kvadrata podana s funkcijami
+$u(x,1)=1-x^{2}$, $u(1,y)=2-2x^{2}$ in $u(x,-1)=u(-1,y)=0$. Slika
+na začetku je izračunana na mreži $20\times20$.
+

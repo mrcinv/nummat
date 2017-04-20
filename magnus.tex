@@ -1,0 +1,24 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\begin{document}
+
+
+Začetni problem 
+\[y''(x)-x\,y(x)=0,\quad y(0)=0.355028\,y'(0)=-0.258819,\] 
+rešujemo kot sistem dveh diferencialnih enačb prvega reda, ki ga lahko zapišemo
+kot 
+\[\mathbf{Y}'=A(x)\,\mathbf{Y},\quad \mathbf{Y}(0)=\mathbf{Y}_0
+  =[y(0),y'(0)]^T.\] 
+Za računanje vrednosti \(y(x)\) uporabimo Magnusovo metodo reda 4, pri kateri
+nov približek \(\mathbf{Y}_{k+1}\) dobimo takole:
+\[\begin{array}{ccc}
+    A_1&=&A\left(x_k+\left(\frac{1}{2}-\frac{\sqrt{3}}{6}\right)h\right)\\
+    A_2&=&A\left(x_k+\left(\frac{1}{2}+\frac{\sqrt{3}}{6}\right)h\right)\\
+    \sigma_{k+1}&=&\frac{h}{2}(A_1+A_2)-\frac{\sqrt{3}}{12}h^2[A_1,A_2]\\
+    \mathbf{Y}_{k+1}&=&\exp(\sigma_{k+1})\mathbf{Y}_k.
+\end{array}\] 
+Izraz \([A,B]\) je komutator dveh matrik in ga izračunamo takole:
+\([A,B]=AB-BA\). 
+Eksponentno funkcijo na matriki (\(\exp(\sigma_{k+1})\)) pa v matlabu dobite z ukazom \texttt{expm}.
+\end{document}

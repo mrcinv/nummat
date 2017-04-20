@@ -1,0 +1,65 @@
+* Program predmeta Numerična matematika 2015-16
+* Vaje
+** Uvod
+*** 1 teden
+Numerično računaje korenske funkcije.
+** Linearni sistemi
+*** 2. teden
+[[file:vaje/implicitna%20interpolacija.org][Implicitna interpolacija]]
+*** 3. teden :Cholesky:
+Reševanje Laplaceove enačbe.
+*** 4. teden :jacobijeva iteracija:Konjugirani gradienti:
+Reševanje Laplaceove enačbe z iterativnimi metodami.
+** Lastne vrednosti
+*** 5. teden :lastne vrednosti:inverzna potenčna:
+Lastne vrednosti Laplaceovega operatorja za graf.
+** Nelinearne enačbe
+*** 6. teden :Newton-Raphson:
+Minimalna razdalja med krivuljama.
+** Interpolacija 
+*** 7. teden
+Vaje iz nelinearnih enačb in interpolacije
+#+INCLUDE: ./vaje7_1415.org
+*** 8. teden
+Hermitova interpolacija
+#+INCLUDE: ./hermite_int.org
+** Aproksimacija
+Aproksimacija:
+ - dva primera uporabe
+   - linearni model za opis podatkov
+   - aproksimacija funkcije za numerično računanje
+*** 9. teden
+Linearni model: Aproksimacija CO2
+#+INCLUDE: ./aprox_co2.org
+Aproksimacija s polinomi Čebiševa
+#+INCLUDE: ./aprox_cheb.org
+
+** Numerični odvod in integral
+*** 10. teden 
+zagovori
+*** 11. teden
+#+INCLUDE: ./vaje11_1516.org
+ničle hermitovih polinomov
+integracija simpson in ocena napake (Richardsonova ekstrapolacija) 
+*** 12. teden
+Večkratni integrali
+Navadne DE 1. reda (hujšanje)
+** Diferencialne enačbe
+*** 13. teden
+Hujšanje
+Lotka-Volterra
+*** 14. teden
+spektralne metode
+*** 15. teden
+zagovori
+* Domače naloge
+** Prva domača naloga
+Naloge so na učilnici
+Zagovor: 4. maj skupaj s 3. nalogo
+** Druga domača naloga
+[[file:domace/domaca_2.org][Naloge za 2. domačo]]
+Rok za oddajo: 4. maj
+Zagovor: 4. maj na vajah skupaj z 2. nalogo
+** Tretja domača naloga
+
+* Izpiti

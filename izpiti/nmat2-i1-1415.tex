@@ -1,0 +1,62 @@
+\documentclass[slovene]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\DeclareMathOperator*\sn{sn}
+\usepackage{listings}
+\lstset{basicstyle={\footnotesize},
+frame=lines,
+language=Octave,
+literate={{č}{{\v{c}}}1 {š}{{\v{s}}}1 {ž}{{\v{z}}}1}}
+\usepackage{textcomp}
+\usepackage{babel}
+\begin{document}
+\begin{center}
+\section*{Izpit iz Numerične matematike}
+
+Ljubljana, 23. 6. 2015
+\end{center}
+\pagestyle{empty}
+
+\begin{enumerate}
+\item Linearen sistem $n=2k$ enačb
+  \begin{equation}
+    \label{eq:sistem}
+    2x_i+x_{n-i+1}=1.\quad i=1,\ldots,n
+  \end{equation}
+  \begin{enumerate}
+  \item Napišite razširjeno matriko za $n=4$ in rešitev sistema poiščite z LU razcepom.
+  \item Za $n=20$ rešite sistem (\ref{eq:sistem}) z Jacobijevo iteracijo
+      \begin{equation*}
+        \label{eq:Jacobi}
+        x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i-\sum_{j\not= i}a_{ij}x_j^{(k)}\right).
+      \end{equation*}
+Koliko korakov iteracije potrebujemo za 3 pravilne decimalke, če za začetni približek izberemo vektor desnih strani? Koliko operacij potrebujemo za vsako iteracijo? 
+  \end{enumerate}
+
+\item Naj bo $y(x)$ rešitev diferencialne enačbe
+  \begin{equation*}
+    \label{eq:NDE}
+    y''-y=-x,
+  \end{equation*}
+ki zadošča začetnemu pogoju $y(0)=-1$ in $y'(0)=2$.
+\begin{enumerate}
+\item Izračunajte približek za $y(1)$ z Eulerjevo metodo s korakom $h=0.5$. Preverite, da je $y(x)=x-e^{-x}$ in določite lokalno napako na 1. koraku in globalno napako za $y(1)$.
+\item Približek za $y(1)$ poiščite še z metodo RK4 
+  \begin{align*}
+    k_1&=h f(x_n,y_n)\\
+    k_2&=h f(x_n+h/2,y_n+k_1/2)\\
+    k_3&=h f(x_n+h/2,y_n+k_2/2)\\
+    k_4&=h f(x_n+h,y_n+k_3)\\
+    y_{n+1}&=y_n+\frac{k_1+2k_2+2k_3+k_4}{6}
+  \end{align*}
+s korakom $h=0.1$.
+\item Z linearno interpolacijo na podatkih iz prejšnje točke poiščite približek za ničlo. Ocenite napako vašega približka za ničlo in vašo oceno primerjajte z dejansko napako.
+\end{enumerate}
+\end{enumerate}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

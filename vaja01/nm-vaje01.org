@@ -2,7 +2,8 @@
 
 Ogledali si bomo od kod pridejo napake pri numeričnih izračunih in kako lahko zaokrožitvene napake povsem pokvarijo končni rezultat.
 
-** Naloga 1: Izračunaj približek za kvadratni koren poljubnega pozitivnega števila samo z uporabo osnovnih operacij +,−,∗,/
+** Naloga 1 
+Izračunaj približek za kvadratni koren poljubnega pozitivnega števila samo z uporabo osnovnih operacij +,−,∗,/
 
  - Metodo preskusi na nekaj primerih.
  - Metodo zapakiraj v funkcijo, ki vrne rezultat na 10 decimalnih mest natančno.
@@ -20,21 +21,24 @@ Oceni neodstranljivo napako, napako metode in zaokrožitvene napake pri računan
 
 *** Rešitev
 **** Neodstranljiva napaka
-Neodstranljivo napako lahko enostavno ocenimo s pomočjo odvoda. Ker število $\pi/10$ ni predstavljivo z binarnim zapisom, v resnici računamo s številom $\hat{x}$, ki se od $\pi/10$ relativno razlikuje za nek δ, ki je manjši od osnovne zaokrožitvene napake ($2^{−54}$ kar je približno $10^{−16}$).
+Neodstranljivo napako lahko enostavno ocenimo s pomočjo odvoda. Ker število
+$\pi/10$ ni predstavljivo z binarnim zapisom, v resnici računamo s številom
+$\hat{x}$, ki se od $\pi/10$ relativno razlikuje za nek δ, ki je manjši od
+osnovne zaokrožitvene napake ($2^{−54}$ kar je približno $10^{−16}$).
 
-Neodstranljivo napako dobimo zato, ker namesto sin(π/10)
-računamo sin(π/10(1+δ))
+Neodstranljivo napako dobimo zato, ker namesto $\sin(\pi/10)$
+računamo $\sin(\pi/10(1+\delta))$. Napako, ki jo pri tem naredimo, lahko ocenimo
+s pomočjo odvoda. Pomagamo si s formulo za ostnek Taylorjeve vrste
 
-. Napako, ki jo pri tem naredimo, lahko ocenimo s pomočjo odvoda. Pomagamo si s formulo za ostnek Taylorjeve vrste
-f(x+h)−f(x)=hf′(ξ)ξ∈(x−h,x+h)
+$$f(x+h)−f(x)=hf′(\xi);\quad \xi\in(x−h,x+h).$$
 
-Če uporabimo, da je |cos(x)|≤1
+Če uporabimo, da je $|cos(x)|\le 1$, dobimo oceno za absolutno napako
 
-, dobimo oceno za absolutno napako
-|sin(x(1+δ))−sin(x)|=|δxcos(xξ)|≤xδ≤δ,
+$$|\sin(x(1+\delta))−\sin(x)|=|\delta x\cos(x\xi)|\le x\delta\le \delta,$$
 
 od koder sledi ocena za relativno napako
-∣∣∣sin(x(1+δ))−sin(x)sin(x)∣∣∣≤xsin(x)δ≤δ,
+
+$$\sin(x(1+\delta))−\sin(x)\sin(x)\le x\sin(x)\delta\le \delta$$,
 
 saj je xsin(x)
 

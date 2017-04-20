@@ -1,0 +1,46 @@
+* Vaje 7. teden
+** Nelinearne enačbe
+*** Naloga
+Funkcija $f(x)$ je podana s programom
+#+BEGIN_SRC octave
+function y = f(x)
+   y = x/2;
+   for i=1:10
+     y = (3*y+x/y)/4;
+   end
+endfunction
+#+END_SRC
+Z Newtonovo in sekantno metodo in poišči rešitev enačbe
+
+\[f(x) = \pi\]
+
+na 10 decimalk natančno.
+** Interpolacija avditorne naloge
+*** Naloga
+Interpoliraj funkcijo $e^{2x} v točkah $-1, 0, 1, 2$ z Newtonovim polinomom in
+vgrajeno funkcijo =polyfit=. Oceni napako s formulo za napako
+
+\[f(x)-p_n(x) = \frac{f^{n+1}(\xi)}{(n+1)!}\Prod_k=1^n(x-x_i)\]
+
+in numerično, tako da narišeš graf napake.
+*** Naloga
+Funkcijo sinus bi radi računali z interpolacijo z linearnim zlepkom v
+ekvidistančnih točkah. Na koliko delov moramo razdeliti interval $[0,\pi]$, da
+bo absolutna napaka zagotovo manjša od $0.005$ (rezultat na dve decimalki).
+*** Naloga
+Funkcijo interpoliramo na intervalu $[0,1]$ s polinomom 3. stopnje, pri čemer
+zahtevamo, da se v krajiščih ujemajo tako vrednosti, kot tudi vrednosti 1.
+odvoda. Poišči Lagrangevo bazo. 
+Interpoliraj funkcijo $\cos(\pi x)$ in oceni napako.
+*** Naloga (Hermitova interpolacija)
+Uporabi Lagrangevo bazo iz prejšnje naloge in napiši program, ki izračuna
+Hermitov kubični interpolacijski zlepek za tabelo vrednosti in odvodov
+
+| x     | x_1  | \ldots | x_n  |
+| f(x)  | y_1  | \ldots | y_n  |
+| f'(x) | dy_1 | \ldots | dy_n | 
+
+Napiši program, ki kubični zlepek tudi nariše.
+*** Naloga
+Sinus interpoliramo s Hermitovim kubičnim zlepkom na ekvidistančnih točkah.
+Koliko točk potrebujemo, da bo napaka manjša od $0.005?

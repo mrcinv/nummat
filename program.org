@@ -1,0 +1,22 @@
+* Program predmeta Numerična matematika 2015-16
+* Vaje
+** Uvod
+*** 1 teden
+** Linearni sistemi
+*** 2. teden
+*** 3. teden
+*** 4. teden
+** Lastne vrednosti
+*** 5. teden
+** Nelinearne enačbe
+*** 6. teden
+*** 7. teden
+*** 8. teden
+*** 9. teden
+*** 10. teden
+*** 11. teden
+*** 12. teden
+*** 13. teden
+*** 14. teden
+*** 15. teden
+* Izpiti

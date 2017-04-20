@@ -1,0 +1,266 @@
+#+TITLE: Izpit iz Numerične matematika
+#+SUBTITLE: Ljubljana, 16. 6. 2016
+#+LANGUAGE: sl
+#+LATEX_HEADER: \usepackage[slovene]{babel}
+
+#+LATEX_HEADER: \usepackage{color}
+#+LATEX_HEADER: \DeclareMathOperator*\erf{erf}
+* Izpit iz Numerične matematike
+:PROPERTIES:
+:header-args: :session :exports both :results output
+:END:
+
+
+** Prva naloga
+Funkcijo napake  
+\[\erf(x)=\frac{2}{\sqrt{\pi}}\int_0^xe^{-t^2}dt\] 
+računamo s sestavljenim Simpsonovim pravilom.
+ - Izračunajte $\erf(0.5)$ s korakom $h=0.25$ in določite napako.
+ - Ocenite, kako velik je lahko še korak  da bo napaka
+   manjša od $5\cdot 10^{-11}$ za vse $x\in[0,1]$ [1].
+ - Izračunajte $\erf(0.5)$ in $\erf^{-1}(0.5)$ na 10 decimalk natančno.
+
+[1] napaka sestavljenega Simpsonovega pravila za integral $f$ na intervalu $[a,b]$ s korakom $h$ je
+\[\frac{h^4}{180}(b-a)f^{(4)}(\xi);\quad \xi\in[a,b]\]
+
+*** Rešitev
+Sestavljeno Simpsonovo pravilo je dano s formulo
+\[I=\frac{h}{6}\left(f(a)+4f(a+h/2)+2f(a+h)+4f(a+h/2)+\ldots+2f(b-h)+4f(b-h/2)+f(b)\]
+Za izračun $\erf(0.5)$ s korakom $h=0.25$ potrebujemo 5 izračunov funkcije:
+#+BEGIN_LaTeX
+\[0.25/6(f(0)+4f(0.125)+2f(0.25)+4f(0.375)+f(0.5))\]
+#+END_LaTeX
+kjer je  $f(x) = \frac{2}{\sqrt{\pi}}e^{-x^2}$.
+#+BEGIN_SRC octave 
+format long
+f = @(x) 2/sqrt(pi)*exp(-x.^2);
+x0 = linspace(0,0.5,5);
+h = x0(3)-x0(1);
+omega = [1 4 2 4 1];
+I = h/6*omega*f(x0')
+#+END_SRC 
+
+#+RESULTS:
+: 
+: I =  0.520505930056394
+
+Napako dobimo tako, da vrednost primerjamo z vgrajeno funkcijo
+#+BEGIN_SRC octave 
+napaka = I - erf(0.5)
+#+END_SRC
+
+#+RESULTS:
+: napaka =    6.05224334793153e-06
+
+Če želimo uporabiti formulo za napako 
+\[\frac{h^4}{180}(b-a)f^{(4)}(\xi);\quad \xi\in[a,b]\]
+moramo najprej oceniti 4. odvod $\erf^{(4)}(x)$ na $[0,1]$. Prvi odvod je enak
+$\erf'(x)=\frac{2}{\sqrt{\pi}}e^{-x^2}$, četrti pa potem
+#+BEGIN_LaTeX
+\begin{equation*}
+\frac{2}{\sqrt{\pi}}\frac{d^3}{dx^3}\left(e^{-x^2}\right)= \frac{2}{\sqrt{\pi}}e^{-x^2}(8x-8x^3)
+\end{equation*}
+#+END_LaTeX
+Če narišemo graf četrtega odvoda na intervalu $[0,1]$, vidimo, da je največja
+vrednost manjša kot 3.
+#+BEGIN_SRC octave :exports result :results none
+figure( 1, "visible", "off" );
+x = linspace(0,1);
+plot(x,2/sqrt(pi)*exp(-x.^2).*(8*x-8*x.^3));
+title("Graf 4. odvoda erf")
+grid
+print -dpng "odvod.png"
+#+END_SRC
+#+CAPTION: Četrti odvod funkcije $\erf(x)$
+[[file:odvod.png]]
+
+To pomeni, da mora biti $h$ manjši kot
+\[h < \sqrt[4]{
+\frac{180\varepsilon }{(b-a)\max_{\xi\in[0,1]}|f^{(4)}\(\xi)|}}=\sqrt[4]{5\cdot 10^{-11}\frac{180}{3}}\]
+#+BEGIN_SRC octave
+ocena_h = (5e-11*60)^0.25
+#+END_SRC
+
+#+RESULTS:
+: ocena_h =  0.00740082804492285
+
+Za izračun napišemo funkcijo kar funkcijo =erf_s.m=
+#+BEGIN_SRC octave
+function y = erf_s(x)
+  ocena_h = 0.007;
+  n = round(x/ocena_h);
+  t = linspace(0,x,2*n+1);
+  h = t(3)-t(1);
+  omega = ones(size(t));
+  omega(2:2:end-1) = 4;
+  omega(3:2:end-2) = 2;
+  y = 2/sqrt(pi)*h/6*omega*(exp(-t.^2))';
+endfunction
+priblizek = erf_s(0.5)
+vgrajena = erf(0.5)
+#+END_SRC
+
+#+RESULTS:
+: 
+: priblizek =  0.520499877816799
+: vgrajena =  0.520499877813047
+
+Za izračun $\erf^{-1}(0.5)$ lahko uporabimo tangentno metodo za reševanje enačbe
+\[\erf(x)-0.5=0\]
+#+BEGIN_SRC octave :results output
+x = 0.5;
+for i=1:5
+  x = x - (erf_s(x)-0.5)/(2/sqrt(pi)*exp(-x^2))
+end
+#+END_SRC
+
+#+RESULTS:
+: 
+: x =  0.476672412143590
+: x =  0.476936243009105
+: x =  0.476936276200390
+: x =  0.476936276200390
+: x =  0.476936276200390
+
+** Druga naloga
+Dana je linearna diferencialna enačba
+  \begin{eqnarray}
+    \label{eq:nde}
+    y''(t) + t y'(t) + y(t) = t.
+  \end{eqnarray}
+  Označimo z $y_1$ rešitev enačbe (\ref{eq:nde}), ki zadošča začetnim pogojem
+  $y(0)=1$ in $y'(0)=0$ in z $y_2$ rešitev, ki zadošča pogojem $y_2(0)=0$ in $y_2'(0)=1$. 
+
+- Izračunajte $y_1(1)$ in $y_2(1)$ s sredinsko metodo
+\[y_{n+1} = y_n +
+hf\left(t_n+\frac{h}{2},y_{n}+\frac{h}{2}f(t_n,y_{n})\right)\]
+s fiksnim korakom $h$ na 5 decimalk natančno. Koliko korakov potrebujete?
+Koliko je red sredinske metode? Pibližno skicirajte grafa $y_1$ in $y_2$.
+- Utemeljite, zakaj je 
+\[y = \frac{t}{2} + C(y_1-\frac{t}{2}) + D(y_2-\frac{t}{2})\] 
+splošna rešitev diferencialne enačbe
+     (\ref{eq:nde}) in določite konstanti $C$ in $D$, da bo $y$ rešitev robnega
+     problema za enačbo (\ref{eq:nde}) s homogenimi robnimi pogoji
+     $y(0)=y(1)=0$. Približno skicirajte graf rešitve robnega problema.
+
+*** Rešitev
+Najprej prevedemo enačbo 2. reda v sistem enačb 1. reda, tako da vpeljemo $z_1=y$
+in $z_2=y'$. Dobimo sistem enačb
+#+BEGIN_LaTeX
+\begin{eqnarray*}
+ z_!'&=&z_2\\
+ z_2'&=&t-ty'-y = t-tz_2-z_1 
+\end{eqnarray*}
+#+END_LaTeX
+Napišimo funkcijo, ki izračuna rešitev diferencialne enačbe s sredinsko metodo
+#+BEGIN_SRC octave :results none
+function [y,t] = sredinsko(f,t0,y0,tk,n)
+# Funkcija rešuje DE y'=f(t,y) s sredinsko metodo
+t = linspace(t0,tk,n+1);
+h = t(2)-t(1);
+y(:,1) = y0;
+for i=1:n
+  y(:,i+1) = y(:,i) + h*f(t(i)+h/2,y(:,i)+h/2*f(t(i),y(:,i)));
+end
+endfunction
+#+END_SRC
+Zapišimo funkcijo desnih strani DE in poiščimo približke za $y_1$ in $y_2$
+#+BEGIN_SRC octave :results none
+f = @(t,y) [y(2); t - t * y(2) - y(1)];
+n = 200;
+[y1,t] = sredinsko(f,0,[1;0],1,n);
+[y2,t] = sredinsko(f,0,[0;1],1,n);
+figure( 1, "visible", "off" );
+plot(t,y1(1,:),'b')
+hold on;
+plot(t,y2(1,:),'r')
+title("y_1 in y_2")
+print -dpng "y1y2.png"
+#+END_SRC
+#+CAPTION: Rešitvi $y_1$ (modra) in $y_2$ (rdeča)
+[[file:y1y2.png]]
+
+Preverimo še, če je natančnost zadovoljiva tako, da zmanjšamo korak in
+preverimo, za koliko se rešitev spremeni.
+
+#+BEGIN_SRC octave 
+[y1a,t] = sredinsko(f,0,[1;0],1,2*n);
+[y2a,t] = sredinsko(f,0,[0;1],1,2*n);
+napaka1 = y1(:,end)-y1a(:,end)
+napaka2 = y2(:,end)-y2a(:,end)
+#+END_SRC
+
+#+RESULTS:
+: 
+: napaka1 =
+: 
+:   -4.2727e-06
+:    3.1078e-06
+: napaka2 =
+: 
+:    4.8202e-07
+:   -2.1739e-06
+Red metode ocenimo numerično. Red metode pove, kako se globalna napaka spreminja v
+odvisnosti od izbire koraka.
+#+BEGIN_SRC octave
+n = 200;
+[y1,t] = sredinsko(f,0,[1;0],1,n);
+[y1a,t] = sredinsko(f,0,[1;0],1,2*n);
+[y1p,t] = sredinsko(f,0,[1;0],1,1000);
+napaka_2h = abs(y1(1,end)-y1p(1,end));
+napaka_h = abs(y1a(1,end)-y1p(1,end));
+
+red = log2(napaka_2h) - log2(napaka_h)
+#+END_SRC
+
+#+RESULTS:
+: 
+: red =  2.1944
+
+Splošna rešitev linearne enačbe je oblike
+\[y = y_p+y_h,\]
+kjer je $y_p$ partikularna rešitev nehomogene enačbe (\ref{eq:nde}), $y_h$ pa
+splošna rešitev homogene
+enačbe
+\begin{equation}
+\label{eq:ndeh}
+ y''+ty+y=0.
+\end{equation}
+Najprej se prepričajmo, da je $\frac{t}{2}$ rešitev enačbe (\ref{eq:nde}).
+Razlika dveh rešitev nehomogene enačbe je rešitev homogene enačbe, zato sta 
+\[y_1-\frac{t}{2}\text{ in }y_2-\frac{t}{2}\]
+neodvisni rešitvi homogene enačbe (\ref{eq:ndeh}). Funkcija
+\[y_h = C(y_1-\frac{t}{2}) + D(y_2-\frac{t}{2})\]
+je splošna rešitev homogene enačbe (\ref{eq:ndeh}), 
+\[y = \frac{t}{2} + C(y_1-\frac{t}{2}) + D(y_2-\frac{t}{2})\]
+pa splošna rešitev nehomogene enačbe (\ref{eq:nde}).
+
+Rešitev robnega problema poiščemo tako, da določimo konstanti $C$ in $D$, tako
+da bo $y(0)=y(1)=0$. Iz prvega pogoja in začetnih pogojev za $y_1$ in $y_2$
+dobimo, da je
+ \[0 = 0/2 + C(1-0/2)+D(0-0/2)\]
+in $C=0$. Konstanto $D$ določimo iz drugega robnega pogoja
+\[0 = 1/2 + D(y_2(1)-1/2)\]
+in $D=-0.5/(y_2(1)-0.5)$
+#+BEGIN_SRC octave
+D = -0.5/(y2(1,end)-0.5)
+#+END_SRC
+
+#+RESULTS:
+: D = -1.3797
+
+Izračunamo začetne pogoje za $y$ 
+\[y(0) = 0\text{ in }y'(0) = 0.5 + D(1-0.5)\]
+
+#+BEGIN_SRC octave :results none
+[y,t] = sredinsko(f,0,[0;0.5+D*0.5],1,n);
+figure( 1, "visible", "off" );
+hold off
+plot(t,y(1,:),'b')
+title("Robni problem")
+grid
+print -dpng "y_robni.png"
+#+END_SRC
+
+#+CAPTION: Rešitev robnega problema $y(0)=y(1)=0$
+[[file:y_robni.png]]

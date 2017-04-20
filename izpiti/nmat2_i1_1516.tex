@@ -1,0 +1,63 @@
+\documentclass[slovene,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{mathpazo}
+\usepackage{amsmath}
+\DeclareMathOperator*\erf{erf}
+\usepackage{listings}
+\lstset{basicstyle={\footnotesize},
+frame=lines,
+language=Octave,
+literate={{č}{{\v{c}}}1 {š}{{\v{s}}}1 {ž}{{\v{z}}}1}}
+\usepackage{textcomp}
+\usepackage{babel}
+\addtolength{\textheight}{1truecm}
+\addtolength{\voffset}{-1truecm}
+\begin{document}
+\begin{center}
+\section*{Izpit iz Numerične matematike}
+
+Ljubljana, 16. 6. 2016
+\end{center}
+\pagestyle{empty}
+
+\begin{enumerate}
+\item Funkcijo napake  
+\[\erf(x)=\frac{2}{\sqrt{\pi}}\int_0^xe^{-t^2}dt\] 
+računamo s sestavljenim Simpsonovim pravilom.
+ \begin{enumerate}
+ \item Izračunajte $\erf(0.5)$ s korakom $h=0.25$ in določite napako.
+ \item Ocenite, kako velik je lahko še korak  da bo napaka
+   manjša od $5\cdot 10^{-11}$ za vse $x\in[0,1]$ \footnote[1]{napaka
+     sestavljenega Simpsonovega pravila za integral $f$
+   na intervalu $[a,b]$ s korakom $h$ je
+\[\frac{h^4}{180}(b-a)f^{(4)}(\xi);\quad \xi\in[a,b]\]}.
+ \item Izračunajte $\erf(0.5)$ in $\erf^{-1}(0.5)$ na 10 decimalk natančno.
+ \end{enumerate}
+
+\item Dana je linearna diferencialna enačba
+  \begin{eqnarray}
+    \label{eq:nde}
+    y''(t) + t y'(t) + y(t) = t.
+  \end{eqnarray}
+  Označimo z $y_1$ rešitev enačbe (\ref{eq:nde}), ki zadošča začetnim pogojem
+  $y(0)=1$ in $y'(0)=0$ in z $y_2$ rešitev, ki zadošča pogojem $y_2(0)=0$ in $y_2'(0)=1$. 
+\begin{enumerate}
+   \item Izračunajte $y_1(1)$ in $y_2(1)$ s sredinsko metodo
+     \[y_{n+1} = y_n +  hf\left(t_n+\frac{h}{2},y_{n}+\frac{h}{2}f(t_n,y_{n})\right)\]
+     s fiksnim korakom $h$ na 5 decimalk natančno. Koliko korakov potrebujete?
+     Koliko je red sredinske metode? Pibližno skicirajte grafa $y_1$ in $y_2$.
+   \item Utemeljite, zakaj je 
+\[y = \frac{t}{2} + C(y_1-\frac{t}{2}) + D(y_2-\frac{t}{2})\] 
+splošna rešitev diferencialne enačbe
+     (\ref{eq:nde}) in določite konstanti $C$ in $D$, da bo $y$ rešitev robnega
+     problema za enačbo (\ref{eq:nde}) s homogenimi robnimi pogoji
+     $y(0)=y(1)=0$. Približno skicirajte graf rešitve robnega problema. 
+  \end{enumerate}
+\end{enumerate}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

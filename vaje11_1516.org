@@ -1,0 +1,23 @@
+#+TITLE: Vaje iz numerične matematike 11. teden
+#+OPTIONS: toc:nil
+* Integracija
+1. Izpeljite kvadraturno formulo za integral
+   
+   \[\int_{-1}^1 f(x)dx = Af(-x_0)+Bf(0)+Cf(x_0)\]
+   
+   z metodo nedoločenih koeficientov. Iz omenjenega pravila izpeljite še sestavljeno pravilo in
+   izpeljite tudi oceno za napako.
+2. Izračunajte integral 
+   
+   \[\int_0^5\sin(x)dx\] 
+   
+   s sestavljeno trapezno, sestavljeno Simpsonovo in Gauss-Lagendrovimi kvadraturami. 
+   Primerjajte število zahtevanih izračunov funkcije za različne
+   metode, ki dajo isto natančnost $10^{-12}$. Gauss-Legendrove kvadraturne
+   formule izračunajte z  [[https://en.wikipedia.org/wiki/Gaussian_quadrature#The_Golub-Welsch_algorithm][Golub-Welschovim algoritmom]]. 
+* Večkratni integrali
+1. Napišite funkcijo, ki s sestavljenim Simpsonovim pravilom izračuna integral
+  funkcje dveh spremenljivk na  pravokotnem območju.
+2. Ocenite in določite napako za funkcijo $e^{x+y}$ na prevokotniku $[0,1]^2$.
+3. Koliko izračunov vrednosti funkcije potrebujemo, če želimo poiskati rezultat
+  na 12 decimalk natančno?

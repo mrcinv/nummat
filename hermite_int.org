@@ -1,0 +1,73 @@
+* Hermitovi interpolacijski zlepki 
+Podano imamo tabelo vrednosti in odvodov neznane funkcije $f$
+\[
+\begin{array}{c|cccc}
+x & x_1 & x_2 &\ldots & x_n\\ \hline
+f(x) & y_1 & y_2 &\ldots & y_n\\ \hline
+f'(x) & dy_1 & dy_2 &\ldots & dy_n\\
+\end{array}
+\]
+Podatke iz zgornje tabele želimo interpolirati s polinomskim zlepkom. To pomeni,
+da vrednosti funkcije in  odvodov na vsakem od intervalov $[x_i,x_{i+1}]$
+interpoliramo z drugim polinomom $p_i$. Potrbujemo polinom stopnje 3, saj mora
+izpolniti 4 enačbe. Ker imamo poleg vrednosti funkcije podane še odvode, bo
+zlepek avtomatično zvezno odvedljiv (razreda $\mathcal{C}^1$).
+** Primer
+Poglejmo si najprej primer
+
+\[
+\begin{array}{c|ccc}
+x & 0 & 1 & 2 \\ \hline
+f(x) & 1 & 3 & 2\\ \hline
+f'(x) & 1 & 0 & -1\\
+\end{array}
+\]
+Podatke lahko predstavimo z grafom
+#+BEGIN_SRC octave :results file
+figure( 1, "visible", "off" );
+x0 = [0 1 2]; f = [1 3 2]; df = [1 0 -1];
+dx = (x0(end)-x0(1))/15;
+plot(x0,f,'o')
+hold on
+for i=1:length(x0)
+  plot(x0(i)+[-dx,dx], f(i)+df(i)*[-dx dx])
+end
+hold off
+title("Interpolacijski podatki")
+print -dpng "zlepek_podatki.png"
+ans = "zlepek_podatki.png"
+#+END_SRC
+
+#+RESULTS:
+[[file:zlepek_podatki.png]]
+
+Potrebujemo dva polinoma $p_1$ na $[0,1]$ in $p_2$ na $[1,2]$. Koeficiente poiščemo v Newtonovi bazi
+
+\[\{1, x-x_1, (x-x_1)^2,(x-x_1)^2(x-x_2)\} \]
+
+s tabelo deljenih diferenc. Pri tem točke, v katerih so podani odvodi, štejemo dvojno in namesto diferenc vstavimo kar prve odvode. Tako za naš primer dobimo začetno tabelo
+
+\[
+\begin{array}{c|cc}
+x & f & [f,f] \\ \hline
+0 & 1 & 1\\
+0 & 1 & \\
+1 & 3 & 0\\
+1 & 3 & \\
+2 & 2 & -1\\
+2 & 2 & \\
+\end{array}
+\]
+
+Ker iščemo kubične polinome, je dovolj, če tabelo izračunamo do 3. diference 
+\[\begin{array}{c|cccc}
+x & f & [f,f] & [f,f,f] & [f,f,f,f]\\ \hline
+0 & 1 &  1 &  1 & -3\\ \hline
+0 & 1 &  2 & -2 & \\
+1 & 3 &  0 & -1 & 1\\ \hline
+1 & 3 & -1 &  0 & \\
+2 & 2 & -1 &    &\\
+2 & 2 &    &    & &\\
+\end{array}\]
+
+Koeficienti interpolacijskih polinoma sta podana v 1. in 3. vrstici 
