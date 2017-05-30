@@ -36,30 +36,58 @@ Koliko je razdalja samopresečišča krivulje do koordinatnega izhodišča?
 
 #+NAME: mathjax 
 #+BEGIN_SRC html
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-</script>
-<script type="text/javascript" async src="path-to-mathjax/MathJax.js?config=TeX-AMS_CHTML">
-</script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+  </script>
+  <script type="text/javascript" async src="path-to-mathjax/MathJax.js?config=TeX-AMS_CHTML">
+  </script>
 #+END_SRC
 
 #+NAME: form
 #+BEGIN_SRC html
-<form onSubmit=" location.href = './' + document.getElementById('answer').value+'.html'; return false; ">
+  <form onSubmit=" location.href = './' + document.getElementById('answer').value+'.html'; return false; ">
 
-Odgovor: 
-<INPUT type="text" name="url" id="answer">
-<INPUT type="submit" value="Preveri">
-</FORM>
+  Odgovor: 
+  <INPUT type="text" name="url" id="answer">
+  <INPUT type="submit" value="Preveri">
+  </FORM>
 
-</body>
+  </body>
 #+END_SRC
 
 
 ** Ničla funkcije
 Izračunaj ničlo funkcije, ki jo vrača oracle
+#+BEGIN_SRC julia
+  function oracle(x)
+      n = 10^9
+      s = zero(x)
+      for k in n:-1:1
+          s += 1/k^x;
+      end
+      s-2pi
+  end
+#+END_SRC
+
+*** Rešitev
+Uporabiti moramo zelo učinkovito metodo, če želimo dovolj hitro izračunati
+ničle. Bisekcija je ena možnost, a potrebuje 3 korake za vsako izračunano
+decimalko. Poskusimo raje z Newtonovo metodo.
+#+BEGIN_SRC julia
+  function doracle(x)
+      n = 10^9
+      s = zeros(x)
+      ds = s
+      for k in n:-1:1
+          p = 1/k^x
+          s += p
+          ds += -p*log(k)
+      end
+      s,ds
+  end
+#+END_SRC
 ** Minimum funkcije dveh spremenljivk
 Poišči minimum funkcije dveh spremenljivk, ki jo vrača oracle. Oracle vrača tudi
 gradient in hessian.
