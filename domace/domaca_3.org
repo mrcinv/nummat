@@ -1,4 +1,4 @@
-#+TITLE: Tretja domača naloga 2015-16
+#+TITLE: Tretja domača naloga
 #+SUBTITLE: Numerična matematika
 #+LANGUAGE: sl
 #+LATEX_HEADER: \usepackage[slovene]{babel}
