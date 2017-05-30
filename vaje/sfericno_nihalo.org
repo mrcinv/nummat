@@ -1,0 +1,63 @@
+#+TITLE: Sferično nihalo
+#+LANGUAGE: sl
+#+LATEX_HEADER: \usepackage[slovene]{babel}
+
+* Problem
+#+BEGIN_EXPORT latex
+\newcommand{\bvec}[1]{\mathbf{#1}}
+#+END_EXPORT
+
+Želimo opisati gibanje kroglice v skledi sferične oblike. Zaradi enostavnosti
+predpostavimo, da so vse konstante enake 1. Položaj kroglice opišemo z vektorjem
+$\bvec{x}$ podanim s koordinatami $(x,y,z)$. Enačbe gibanja za kroglico
+izpeljemo iz 2. Newtonovega zakona:
+
+\begin{equation}
+  \label{eq:sile}
+  m\ddot{\bvec{x}}&=&\bvec{F}_g+\bvec{F}_r=-mg\bvec{e}_3-\bvec{x}F_r 
+\end{equation}
+kjer sta $\bvec{F}_g$ sila teže in $\bvec{F}_r$ sila ročice, ki drži kroglico na
+sferi. Sistem enačb (\ref{eq:sile}) je drugega reda, vendar ga lahko z vpeljavo
+nove spremenljivke vektorja hitrosti $\bvec{v}=\dot{\bvec{x}}$ prevedemo na
+sistem prvega reda:
+
+\begin{eqnarray}
+\label{eq:sistem}
+\dot{\bvec{x}} &=& \bvec{v}\\
+\label{eq:pospesek}
+\dot{\bvec{v}} &=& -g\bvec{e}_3-\bvec{x}\frac{F_r}{m}  
+\end{eqnarray}
+
+Pogoj, da se kroglica giblje po sferi, lahko zapišemo v obliki vezi:
+
+\begin{equation}
+\label{eq:vez}
+\bvec{x}\cdot\bvec{x}=1
+\end{equation}
+
+Če vez (\ref{eq:vez}) dvakrat odvajamo, dobimo $\bvec{v}\cdot\bvec{x}=0$ in
+$\dot{\bvec{v}}\cdot\bvec{x}+\bvec{v}\cdot\bvec{v}=0$. Če dobljene zveze
+vstavimo v enačbo (\ref{eq:pospesek}), dobimo velikost sile ročice $F_r$:
+
+\begin{eqnarray}
+\label{eq:Fr}
+\dot{\bvec{v}}\cdot\bvec{x}&=& -g\bvec{e}_3\cdot \bvec{x}-\bvec{x}\cdot\bvec{x}\frac{F_r}{m}
+=  -g\bvec{e}_3\cdot \bvec{x}-\frac{F_r}{m} = -\bvec{v}\cdot\bvec{v}\\
+\frac{F_r}{m} &=& \bvec{v}\cdot\bvec{v} - g\bvec{e}_3\cdot\bvec{x} 
+\end{eqnarray}
+   
+* Rešitev
+
+#+BEGIN_SRC octave :tangle :file ../octave_funkcije/sfericno.m
+function dY = sfericno(t,Y, parametri)
+% Funkcija dY = sfericno(t,Y, parametri) izračuna desne strani DE za sferično nihalo
+% t ... čas (irelevanten, le za kompatibilnost z rk4)
+% Y ... stolpec [x,y,z,vx,vy,vz]' s koordinatami in hitrostmi
+% parametri ... g težni pospešek
+x = Y(1:3);
+v = Y(4:6);
+g = parametri;
+e3 = [0,0,1]';
+Frzm = v'*v-g*x(3);
+dY = [v;-g*e3-Frzm*x];
+#+END_SRC
